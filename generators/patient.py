@@ -29,7 +29,7 @@ fake.add_provider(GKVProvider)
 fake.date_of_birth(None, 0, 115)
 
 
-def patient_generator() -> Union[dict, None]:
+def generate_patient_data() -> Union[dict, None]:
     address = fake.address()
     address_dict = parse_address(address)
 
@@ -90,6 +90,7 @@ def patient_generator() -> Union[dict, None]:
             }
         }],
     }
+    print(f"Generated patient data: {json.dumps(data)}")
     return data
 
 
@@ -108,7 +109,7 @@ def generate_patients(n: int, batch_size: int = 10):
 
     patients = []
     with concurrent.futures.ThreadPoolExecutor() as executor:
-        futures = [executor.submit(generate_patients) for _ in range(n)]
+        futures = [executor.submit(generate_patient_data) for _ in range(n)]
         for future in concurrent.futures.as_completed(futures):
             patients.append(future.result())
 
@@ -131,10 +132,10 @@ def generate_patients_threads(n: int, max_parallel: int = 20):
     print(f"Start generating {n} patients")
     start = time.time()
     patients = []
-
+    print(f"Start generating {n} patients")
     # Thread pool for generating patient data
     with concurrent.futures.ThreadPoolExecutor() as executor:
-        futures = [executor.submit(generate_patients) for _ in range(n)]
+        futures = [executor.submit(generate_patient_data) for _ in range(n)]
         for future in concurrent.futures.as_completed(futures):
             patients.append(future.result())
 

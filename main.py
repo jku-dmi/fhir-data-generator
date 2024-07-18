@@ -1,13 +1,7 @@
 import time
 
-from fhir_tool.fhir_client.patient_generator import generate_patients_fhir_client
-from fhir_tool.http_requests import get_by_resource, get_metadata, update_request, post_request, get_resource_count
-from fhir_tool.json_file_reader import JsonFileReader
-import json
-from fhir_tool.data_generation.patient_generator import generate_patients, \
-    generate_patients_threads
-
-from fhir_tool.validation.validateResources import get_resources
+from generators.patient import generate_patients_threads
+from resources.http_requests import get_resource_count
 
 
 def main():
@@ -28,8 +22,8 @@ def main():
 
     # generate_patient_threading(1000, 10)
     get_resource_count("Patient")
-    generate_patients_threads(1000, 20)
-    generate_patients_fhir_client(1000)
+    generate_patients_threads(10, 10)
+    #generate_patients_fhir_client(1000)
     get_resource_count("Patient")
 
 

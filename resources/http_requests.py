@@ -5,9 +5,17 @@ import json
 
 from fhirclient.models.bundle import Bundle
 
-from fhir_tool.exceptions.resource_not_available import ResourceNotAvailable
-from fhir_tool.exceptions.resource_not_found import ResourceNotFound
-from fhir_tool.fhir_client.fhir_client import smart
+
+from exceptions.resource_not_available import ResourceNotAvailable
+from exceptions.resource_not_found import ResourceNotFound
+from fhirclient import client
+
+settings = {
+    'app_id': 'fhir_server',
+    'api_base': 'http://localhost:8080/fhir'
+}
+
+smart = client.FHIRClient(settings=settings)
 
 base_url: str = 'http://localhost:8080/fhir'
 headers: dict[str, str] = {"Content-Type": "application/fhir+json; charset=utf-8"}
