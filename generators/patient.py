@@ -123,7 +123,7 @@ def generate_patients(n: int, batch_size: int = 10):
     print(f"Task completed in {total} seconds")
 
 
-def generate_patients_threads(n: int, max_parallel: int = 20):
+def  generate_patients_threads(n: int, max_parallel: int = 20):
     """
     :param n: Number of patients to generate
     :param batch_size: Size of a batch to send to the server

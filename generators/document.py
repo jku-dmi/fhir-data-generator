@@ -3,19 +3,24 @@ import json
 import time
 import threading
 from typing import Union
+
+from providers.confidentiality import ConfidentialityProvider
+from providers.document_completion_status import DocumentCompletionStatusProvider
+from providers.gkv_number import GKVProvider
 from providers.human_name import HumanNameUseProvider
 from providers.contact_point import ContactPointSystemProvider, ContactPointUseProvider
 from providers.address import AddressTypeProvider, AddressUseProvider
 from providers.gender import GenderProvider
 from providers.marital_status import MaritalProvider
-
-
+from providers.mime_type import MimeTypeProvider
+from providers.oid import OidProvider
+from providers.timestamp import TimeStampProvider
 from faker import Faker
 
-from providers.visitor_number import VisitorNumberProvider
+
 from resources.http_requests import post_request
 
-fake = Faker()
+fake = Faker(['de'], use_weighting=False)
 
 fake.add_provider(HumanNameUseProvider)
 fake.add_provider(ContactPointSystemProvider)
@@ -24,48 +29,80 @@ fake.add_provider(AddressUseProvider)
 fake.add_provider(AddressTypeProvider)
 fake.add_provider(GenderProvider)
 fake.add_provider(MaritalProvider)
-fake.add_provider(VisitorNumberProvider)
+fake.add_provider(GKVProvider)
+fake.add_provider(OidProvider)
+fake.add_provider(TimeStampProvider)
+fake.add_provider(DocumentCompletionStatusProvider)
+fake.add_provider(ConfidentialityProvider)
+fake.add_provider(MimeTypeProvider)
 
-fake.date_of_birth(None, 0, 115)
 
-
-def episode_of_care_generator() -> Union[dict, None]:
+def generate_document_data() -> Union[dict, None]:
     address = fake.address()
     address_dict = parse_address(address)
 
     data = {
-        "resourceType": "EpisodeOfCare",
-        "active": fake.boolean(95),
-        "subject":fake.uuid4(),
-			"identifier":[
-				{
-					"type":{
-						"code":"VN",
-						"system":"http://terminology.hl7.org/CodeSystem/v2-0203"
-					},
-					"value": fake.visitor_number(),
-					"issuer":{
-						"oid":"1.2.276.0.76.3.1.12345.0815",
-						"system":"http://www.krankenhaus-oberstadt.de/sid/fallnr"
-					}
-				}
-			],
-			"status":"active",
-			"period":{
-				"start":"2023-09-08T08:30:00"
-			}
+        "resourceType": "Document",
+        "id":"b4de5b28-7e0d-49d5-883e-af0188033313",
+        "active":"true",
+        "identifier":[
+            {
+                "type":{
+                    "code":"RI",
+                    "system":"http://terminology.hl7.org/CodeSystem/v2-0203"
+                },
+                "value": fake.oid(),
+                "formatType":"other",
+                "issuer":{
+                    "oid": fake.oid(),
+                    "display":"DMS",
+                    "system":"http://www.krankenhaus-oberstadt.de/sid/docid"
+                }
+            }
+        ],
+        "editTime": fake.timestamp(),
+        "completionStatus":{
+            "value": fake.document_completion_status(),
+            "system":"http://terminology.hl7.org/CodeSystem/v3-DocumentCompletion"
+        },
+        "confidentiality":{
+            "value": fake.confidentiality(),
+            "system":"https://terminology.hl7.org/5.2.0/CodeSystem-v3-Confidentiality.html"
+        },
+        "subject":"6f633d04-ef57-451b-856f-2e1232ee57e3",
+        "encounter":"22035706-35e6-4375-bc49-a5ba34f7e773",
+        "documentType":"212152",
+        "department":[
+            {
+                "identifier":{
+                    "value":"CHIR",
+                    "system":"http://www.krankenhaus-oberstadt.de/sid/department"
+                },
+                "display":"Fachabteilung CHIR"
+            }
+        ],
+        "mimeType":"application/" + fake.mime_type(),
+        "objectType":"default",
+        "fileContentURI": fake.numerify('#######'),
+        "hash":[
+            {
+                "value":"1347ae6292960abf3c0ab6d6a8ded6d7772362310a13339fec0ddbb770b9b09855f2f5445a1ee3f8dd2f5d0ffa8054c2ed2611baea5f3915adbc081c5667eca6",
+                "algorithm":"SHA-512"
+            }
+        ]
     }
+    print(f"Generated document data: {json.dumps(data)}")
     return data
 
 
 def post_request_batch(batch_data):
     for data in batch_data:
-        post_request("Patient", data)
+        post_request("Document", data)
 
 
 def generate_patients(n: int, batch_size: int = 10):
     """
-    :type n: Number of patients to generate
+    :type n: Number of documents to generate
     :type batch_size: Size of a batch to send to the server
     """
     print(f"Start generating {n} patients")
@@ -73,7 +110,7 @@ def generate_patients(n: int, batch_size: int = 10):
 
     patients = []
     with concurrent.futures.ThreadPoolExecutor() as executor:
-        futures = [executor.submit(episode_of_care_generator) for _ in range(n)]
+        futures = [executor.submit(generate_patient_data) for _ in range(n)]
         for future in concurrent.futures.as_completed(futures):
             patients.append(future.result())
 
@@ -96,10 +133,10 @@ def generate_patients_threads(n: int, max_parallel: int = 20):
     print(f"Start generating {n} patients")
     start = time.time()
     patients = []
-
+    print(f"Start generating {n} patients")
     # Thread pool for generating patient data
     with concurrent.futures.ThreadPoolExecutor() as executor:
-        futures = [executor.submit(episode_of_care_generator) for _ in range(n)]
+        futures = [executor.submit(generate_patient_data) for _ in range(n)]
         for future in concurrent.futures.as_completed(futures):
             patients.append(future.result())
 
