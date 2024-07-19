@@ -1,54 +1,45 @@
-import time
+from generator.encounter import generate_encounter, add_condition
+from generator.episode_of_care import generate_episode_of_care
+from generator.organization import generate_organizations, generate_orga
+from generator.patient import generate_patient
+from helpers.create_dynamic_provider import create_dynamic_provider
+from generator.condition import generate_condition
+from helpers.fhir_client import getClient
 
-from generators.patient import generate_patients_threads
-from resources.http_requests import get_resource_count
+
+import fhirclient.models.encounter as enc
 
 
 def main():
-    #print("Starting FHIR Tool")
-    #r = get_by_resource("Patient")
-    #try:
-    #    print(json.dumps(r, indent=2))
-    #except AttributeError as e:
-    #    print("There was no response with an .json attribute ")
-    #except Exception as e:
-    #    print("An error occurred")
+    print("Starting FHIR Tool")
 
-    # path = 'C:/Users/KuziaJ/PycharmProjects/fhir-tool/data/CI.json'
+    patient = generate_patient()
+    print(patient)
+    organization = generate_orga()
+    print(organization)
 
-    # jfr = JsonFileReader(path)
 
-    # jfr.show_content()
+    episode_of_care = generate_episode_of_care(patient, organization)
+    print(episode_of_care)
 
-    # generate_patient_threading(1000, 10)
-    get_resource_count("Patient")
-    generate_patients_threads(10, 10)
-    #generate_patients_fhir_client(1000)
-    get_resource_count("Patient")
+
+    encounter = generate_encounter(patient, episode_of_care, organization)
+    print(encounter)
+
+    condition = generate_condition(patient, encounter)
+    print(condition)
+    add_condition(encounter, condition)
 
 
 
-    # updated_data = {
-    #     "resourceType": "Patient",
-    #     "id": "1",
-    #     "active": True,
-    #     "name": [
-    #         {
-    #             "use": "official",
-    #             "family": "Doe",
-    #             "given": ["John"]
-    #         }
-    #     ],
-    #     "gender": "male",
-    #     "birthDate": "1980-01-01"
-    # }
 
-    #try:
-    #    updated_resource = update_request("Patient", "1", updated_data)
+    #anzahl_orgas = 10
+    #orga_ids = generate_organizations(anzahl_orgas)
 
-    #    print(f"Updated Resource: {json.dumps(updated_resource, indent=2)}")
-    #except requests.exceptions.RequestException as e:
-    #    print(f"Request failed: {e}")
+    #create_dynamic_provider("organization_ids", orga_ids)
+
+    #for i in orga_ids:
+    #    print(i)
 
 
 if __name__ == "__main__":
