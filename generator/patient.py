@@ -24,7 +24,9 @@ def generate_patient() -> int:
 
     patient.meta = m.Meta()
     patient.meta.versionId = '1'
-    patient.meta.lastUpdated = fd.FHIRDate(fake.timestamp())
+    fhirdate = fd.FHIRDate()
+    fhirdate.date = fake.date_time()
+    patient.meta.lastUpdated = fhirdate
 
     humanname = h.HumanName()
     humanname.use = fake.human_name_use()
@@ -42,7 +44,9 @@ def generate_patient() -> int:
     address.country = fake.country()
     patient.address = [address]
 
-    patient.birthDate = fd.FHIRDate(fake.timestamp())
+    bd = fd.FHIRDate()
+    bd.date = fake.date_time()
+    patient.birthDate = bd
     patient.gender = fake.gender()
 
     marital_status = cc.CodeableConcept()

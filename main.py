@@ -1,45 +1,79 @@
-from generator.encounter import generate_encounter, add_condition
-from generator.episode_of_care import generate_episode_of_care
-from generator.organization import generate_organizations, generate_orga
-from generator.patient import generate_patient
-from helpers.create_dynamic_provider import create_dynamic_provider
-from generator.condition import generate_condition
-from helpers.fhir_client import getClient
-
-
-import fhirclient.models.encounter as enc
+from generator.data_set import generate_organization
+from generator.medication.medication import generate_medication
+from generator.medication.medication_statement import generate_medication_statement
 
 
 def main():
-    print("Starting FHIR Tool")
-
+    print("Starting the data generation")
+    """
     patient = generate_patient()
     print(patient)
-    organization = generate_orga()
+    organization = '8852'  # generate_orga()
     print(organization)
-
-
     episode_of_care = generate_episode_of_care(patient, organization)
     print(episode_of_care)
-
-
     encounter = generate_encounter(patient, episode_of_care, organization)
     print(encounter)
+    document_reference = generate_document_reference(patient, encounter)
+    print(document_reference)
+    procedure = generate_procedure(patient, encounter)
+    print(procedure)
+    
+    organization = '8852'
+    medication = generate_medication(organization)
+    print(medication)
 
-    condition = generate_condition(patient, encounter)
-    print(condition)
-    add_condition(encounter, condition)
+    patient = '2'
+    encounter = '9006'
+    med_ref = generate_medication_statement(patient, encounter, medication)
+    print(med_ref)
+    """
+    #condition = generate_condition(patient, encounter)
+    #print(condition)
+    #add_condition(encounter, condition)
 
+    '''
+    anzahl_orgas = 10
+    res = []
+    for n in range(anzahl_orgas):
+        res.append(generate_orga())
 
+    bundle_entries = []
+    for o in res:
+        entry = bundle.BundleEntry()
+        entry.resource = o
+        request = bundle.BundleEntryRequest()
+        request.method = "POST"
+        request.url = "Organization"
+        entry.request = request
+        bundle_entries.append(entry)
 
+    b = bundle.Bundle()
+    b.type = "transaction"
+    b.entry = bundle_entries
 
-    #anzahl_orgas = 10
-    #orga_ids = generate_organizations(anzahl_orgas)
+    print(bundle)
 
-    #create_dynamic_provider("organization_ids", orga_ids)
+    smart = getClient()
+    try:
+        # res = b.create(smart.server)
+        res = requests.post(smart.server.base_uri, json=b.as_json(), headers={'Content-Type': 'application/fhir+json'})
+        print(f"Response: {res}")
+    except FHIRValidationError as e:
+        print(f"FHIR Validation Error: {e}")
+
+    '''
+    #create_dynamic_provider("organization_id", orga_ids)
 
     #for i in orga_ids:
     #    print(i)
+
+    #fake = getFaker()
+    #o = fake.organization_id()
+
+    #print(o)
+
+    generate_organization(10)
 
 
 if __name__ == "__main__":

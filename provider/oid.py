@@ -4,7 +4,7 @@ fake = Faker()
 
 class OidProvider(BaseProvider):
      def oid(self) -> str:
-          return fake.numerify(text='#.#.###.###.###.#####.###.##')
+          return fake.numerify(text='#.#.###.#.##.#.#.#####.####.#############.#')
 
 
 

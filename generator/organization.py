@@ -20,23 +20,18 @@ def generate_organizations(anzahl: int) -> []:
     return ids
 
 
-def generate_orga() -> int:
-    # Create a new Patient resource
+def generate_orga():
     orga = organization.Organization()
 
-
     identifier = i.Identifier()
-
     identifier.system = 'https://gematik.de/fhir/sid/telematik-id'
     identifier.value = fake.numerify('############')
     orga.identifier = [identifier]
 
     orga.active = True
 
-
     type = cc.CodeableConcept()
     coding = cod.Coding()
-
     coding.system = 'http://terminology.hl7.org/CodeSystem/organization-type'
     coding.code = fake.organisation_type()
     type.coding = [coding]
@@ -54,5 +49,6 @@ def generate_orga() -> int:
     address.country = fake.country()
     orga.address = [address]
 
-    res = orga.create(smart.server)
-    return res['id']
+    #res = orga.create(smart.server)
+    #return res['id']
+    return  orga

@@ -2,8 +2,6 @@ import fhirclient.models.condition as c
 import fhirclient.models.fhirdate as fd
 import fhirclient.models.meta as m
 import fhirclient.models.identifier as i
-import fhirclient.models.humanname as h
-import fhirclient.models.address as a
 import fhirclient.models.codeableconcept as cc
 import fhirclient.models.coding as cod
 import fhirclient.models.fhirreference as fr
@@ -15,6 +13,7 @@ from helpers.coding.icd10 import get_icd10_as_cc
 smart = getClient()
 fake = getFaker()
 
+
 def generate_condition(patient, encounter) -> int:
     condition = c.Condition()
     identifier = i.Identifier()
@@ -25,14 +24,14 @@ def generate_condition(patient, encounter) -> int:
     condition.identifier = [identifier]
 
     condition.meta = m.Meta()
-    condition.profile = [ "http://dmi.de/fhir/StructureDefinition/DaWiMedCondition" ]
+    condition.profile = ["http://dmi.de/fhir/StructureDefinition/DaWiMedCondition"]
     condition.meta.lastUpdated = fd.FHIRDate(fake.timestamp())
 
     clinical_status = cc.CodeableConcept()
     coding = cod.Coding()
     coding.system = "http://terminology.hl7.org/CodeSystem/condition-clinical"
     coding.code = fake.clinical_status()
-    clinical_status.coding =[coding]
+    clinical_status.coding = [coding]
     condition.clinicalStatus = clinical_status
 
     code = get_icd10_as_cc()

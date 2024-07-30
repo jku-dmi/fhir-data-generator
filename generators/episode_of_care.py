@@ -1,13 +1,11 @@
 import concurrent.futures
-import json
 import time
-import threading
 from typing import Union
-from providers.human_name import HumanNameUseProvider
+from providers.patient.human_name import HumanNameUseProvider
 from providers.contact_point import ContactPointSystemProvider, ContactPointUseProvider
 from providers.address import AddressTypeProvider, AddressUseProvider
-from providers.gender import GenderProvider
-from providers.marital_status import MaritalProvider
+from providers.patient.gender import GenderProvider
+from providers.patient.marital_status import MaritalProvider
 
 
 from faker import Faker

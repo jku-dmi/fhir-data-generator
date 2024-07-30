@@ -4,28 +4,56 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fabb222-5e7b-4289-81fd-5e64d5ec8aa9" name="Changes" comment="base to create the bundle generator">
-      <change afterPath="$PROJECT_DIR$/generator/condition.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/generator/encounter.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/generator/episode_of_care.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/generator/location.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/generator/organization.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/generator/patient.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/helpers/coding/icd10.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/helpers/create_dynamic_provider.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/helpers/faker_instance.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/helpers/fhir_client.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/providers/coding/icd10.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/providers/condition/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/providers/condition/clinical_status.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/providers/encounter/encounter_provider.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/providers/eoc_status.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/providers/episode_of_care_type.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/providers/location/location_provider.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/providers/orga_type.py" afterDir="false" />
+    <list default="true" id="3fabb222-5e7b-4289-81fd-5e64d5ec8aa9" name="Changes" comment="generation of patient, episode_of_care, encounter and condition implemented">
+      <change afterPath="$PROJECT_DIR$/generator/bundle_generator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/generator/document_reference.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/generator/medication/medication.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/generator/medication/medication_statement.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/generator/procedure.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/provider/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/provider/condition/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/provider/document_reference/providers.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/provider/episode_of_care/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/provider/id_provider/document_id.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/provider/medication/providers.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/provider/medication_statement/providers.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/provider/patient/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/provider/procedure/providers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_07_2024_10_07_[Changes]/shelved.patch" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fhirclient/bundle-generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/generator/bundle-generator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fhirclient/bundle-generator.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/generator/condition.py" beforeDir="false" afterPath="$PROJECT_DIR$/generator/condition.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generator/episode_of_care.py" beforeDir="false" afterPath="$PROJECT_DIR$/generator/episode_of_care.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generator/location.py" beforeDir="false" afterPath="$PROJECT_DIR$/generator/location.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generator/organization.py" beforeDir="false" afterPath="$PROJECT_DIR$/generator/organization.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generator/patient.py" beforeDir="false" afterPath="$PROJECT_DIR$/generator/patient.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generators/document.py" beforeDir="false" afterPath="$PROJECT_DIR$/generators/document.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generators/episode_of_care.py" beforeDir="false" afterPath="$PROJECT_DIR$/generators/episode_of_care.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generators/patient.py" beforeDir="false" afterPath="$PROJECT_DIR$/generators/patient.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/faker_instance.py" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/faker_instance.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/providers/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/extension/document.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/providers/address.py" beforeDir="false" afterPath="$PROJECT_DIR$/provider/address.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/providers/code_system_identfier_type_de_basis.py" beforeDir="false" afterPath="$PROJECT_DIR$/provider/code_system_identfier_type_de_basis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/providers/coding/icd10.py" beforeDir="false" afterPath="$PROJECT_DIR$/provider/coding/icd10.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/providers/condition/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/generator/data_set.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/providers/condition/clinical_status.py" beforeDir="false" afterPath="$PROJECT_DIR$/provider/condition/providers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/providers/confidentiality.py" beforeDir="false" afterPath="$PROJECT_DIR$/provider/confidentiality.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/providers/contact_point.py" beforeDir="false" afterPath="$PROJECT_DIR$/provider/contact_point.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/providers/document_completion_status.py" beforeDir="false" afterPath="$PROJECT_DIR$/provider/document_completion_status.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/providers/encounter/encounter_provider.py" beforeDir="false" afterPath="$PROJECT_DIR$/provider/encounter/providers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/providers/eoc_status.py" beforeDir="false" afterPath="$PROJECT_DIR$/provider/episode_of_care/providers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/providers/episode_of_care_type.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/providers/gender.py" beforeDir="false" afterPath="$PROJECT_DIR$/provider/patient/gender.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/providers/gkv_number.py" beforeDir="false" afterPath="$PROJECT_DIR$/provider/patient/gkv_number.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/providers/human_name.py" beforeDir="false" afterPath="$PROJECT_DIR$/provider/patient/human_name.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/providers/location/location_provider.py" beforeDir="false" afterPath="$PROJECT_DIR$/provider/location/providers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/providers/marital_status.py" beforeDir="false" afterPath="$PROJECT_DIR$/provider/patient/marital_status.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/providers/mime_type.py" beforeDir="false" afterPath="$PROJECT_DIR$/provider/mime_type.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/providers/oid.py" beforeDir="false" afterPath="$PROJECT_DIR$/provider/oid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/providers/orga_type.py" beforeDir="false" afterPath="$PROJECT_DIR$/provider/orga_type.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/providers/timestamp.py" beforeDir="false" afterPath="$PROJECT_DIR$/provider/timestamp.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/providers/visitor_number.py" beforeDir="false" afterPath="$PROJECT_DIR$/provider/visitor_number.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,25 +81,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Python.bundle-generator.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.oraganization.executor": "Run",
-    "Python.organization.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/KuziaJ/PycharmProjects/data-generator/generators",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Python.bundle-generator.executor&quot;: &quot;Run&quot;,
+    &quot;Python.document.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.oraganization.executor&quot;: &quot;Run&quot;,
+    &quot;Python.organization.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/KuziaJ/PycharmProjects/data-generator/generators&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\KuziaJ\PycharmProjects\data-generator\generators" />
@@ -80,6 +109,9 @@
       <recent name="C:\Users\KuziaJ\PycharmProjects\data-generator\providers" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\KuziaJ\PycharmProjects\data-generator\generator\medication" />
+      <recent name="C:\Users\KuziaJ\PycharmProjects\data-generator\providers\episode_of_care" />
+      <recent name="C:\Users\KuziaJ\PycharmProjects\data-generator\providers\patient" />
       <recent name="C:\Users\KuziaJ\PycharmProjects\data-generator\providers\condition" />
       <recent name="C:\Users\KuziaJ\PycharmProjects\data-generator\helpers" />
     </key>
@@ -136,7 +168,10 @@
       <workItem from="1721024842934" duration="684000" />
       <workItem from="1721025540532" duration="248000" />
       <workItem from="1721025800004" duration="1633000" />
-      <workItem from="1721381602748" duration="25030000" />
+      <workItem from="1721381602748" duration="41184000" />
+      <workItem from="1721727297822" duration="102000" />
+      <workItem from="1722252089470" duration="1835000" />
+      <workItem from="1722321907046" duration="22785000" />
     </task>
     <task id="LOCAL-00001" summary="inital commit">
       <option name="closed" value="true" />
@@ -154,7 +189,15 @@
       <option name="project" value="LOCAL" />
       <updated>1721322383168</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="generation of patient, episode_of_care, encounter and condition implemented">
+      <option name="closed" value="true" />
+      <created>1721417948860</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1721417948860</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -195,12 +238,14 @@
     </ignored-roots>
     <MESSAGE value="inital commit" />
     <MESSAGE value="base to create the bundle generator" />
-    <option name="LAST_COMMIT_MESSAGE" value="base to create the bundle generator" />
+    <MESSAGE value="generation of patient, episode_of_care, encounter and condition implemented" />
+    <option name="LAST_COMMIT_MESSAGE" value="generation of patient, episode_of_care, encounter and condition implemented" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/data_generator$bundle_generator.coverage" NAME="bundle-generator Coverage Results" MODIFIED="1721385177787" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/fhirclient" />
     <SUITE FILE_PATH="coverage/data_generator$oraganization.coverage" NAME="oraganization Coverage Results" MODIFIED="1721385882205" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/fhirclient" />
-    <SUITE FILE_PATH="coverage/data_generator$main.coverage" NAME="main Coverage Results" MODIFIED="1721417003495" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/data_generator$main.coverage" NAME="main Coverage Results" MODIFIED="1722346168948" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/data_generator$organization.coverage" NAME="organization Coverage Results" MODIFIED="1721388318563" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/fhirclient" />
+    <SUITE FILE_PATH="coverage/data_generator$document.coverage" NAME="document Coverage Results" MODIFIED="1721635313628" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/extension" />
   </component>
 </project>
