@@ -12,8 +12,10 @@ smart = getClient()
 fake = getFaker()
 
 
-def generate_procedure(patient, encounter):
+def generate_procedure() -> proc.Procedure:
     procedure = proc.Procedure()
+    patient = fake.get_patient_id()
+    encounter = fake.get_encounter_id()
 
     meta = m.Meta()
     meta.profile = ["http://dmi.de/fhir/StructureDefinition/DaWiMedProzedur"]
@@ -47,5 +49,6 @@ def generate_procedure(patient, encounter):
 
     procedure.code = code
 
-    res = procedure.create(smart.server)
-    return res['id']
+    #res = procedure.create(smart.server)
+    #return res['id']
+    return procedure

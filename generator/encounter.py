@@ -14,8 +14,11 @@ smart = getClient()
 fake = getFaker()
 
 
-def generate_encounter(patient, episode_of_care, organization) -> int:
+def generate_encounter() -> enc.Encounter:
     encounter = enc.Encounter()
+    patient = fake.get_patient_id()
+    episode_of_care = fake.get_episode_of_care_id()
+    organization = fake.get_organization_id()
 
     encounter.active = True
 
@@ -66,11 +69,12 @@ def generate_encounter(patient, episode_of_care, organization) -> int:
     encounter_location.location = loc_ref
     encounter.location = [encounter_location]
 
-    res = encounter.create(smart.server)
-    return res['id']
+    #res = encounter.create(smart.server)
+    #return res['id']
+    return encounter
 
 
-def add_condition(encounter, condition):
+def add_condition_encounter(encounter, condition):
     e = enc.Encounter.read(encounter, smart.server)
     encounter_diagnosis = enc.EncounterDiagnosis()
 

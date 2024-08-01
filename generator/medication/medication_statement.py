@@ -13,8 +13,11 @@ smart = getClient()
 fake = getFaker()
 
 
-def generate_medication_statement(patient, encounter, medication):
+def generate_medication_statement() -> ms.MedicationStatement:
     medication_statement = ms.MedicationStatement()
+    patient = fake.get_patient_id()
+    encounter = fake.get_encounter_id()
+    medication = fake.get_medication_id()
 
     meta = m.Meta()
     meta.profile = ["http://dmi.de/fhir/StructureDefinition/DaWiMedMedicationStatement"]
@@ -41,11 +44,10 @@ def generate_medication_statement(patient, encounter, medication):
     context.reference = 'Encounter/{}'.format(encounter)
     medication_statement.context = context
 
-    effectiveDateTime = fd.FHIRDate()
-    effectiveDateTime.dateTime = fake.date_time()
-    medication_statement.effectiveDateTime = effectiveDateTime
+    effective_date_time = fd.FHIRDate()
+    effective_date_time.dateTime = fake.date_time()
+    medication_statement.effectiveDateTime = effective_date_time
 
-    res = medication_statement.create(smart.server)
-    return res['id']
-
-
+    #res = medication_statement.create(smart.server)
+    #return res['id']
+    return medication_statement

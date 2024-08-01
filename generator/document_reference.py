@@ -12,8 +12,11 @@ from helpers.faker_instance import getFaker
 
 smart = getClient()
 fake = getFaker()
-def generate_document_reference(patient, encounter) -> int:
-    documentreference = dr.DocumentReference()
+def generate_document_reference() -> dr.DocumentReference:
+    document_reference = dr.DocumentReference()
+    patient = fake.get_patient_id()
+    encounter = fake.get_encounter_id()
+
     identifier = i.Identifier()
     identId = fake.doc_id()
 
@@ -27,12 +30,13 @@ def generate_document_reference(patient, encounter) -> int:
 
 
     identifier.coding = [coding2, coding3]
-    documentreference.identifier = [identifier]
+    document_reference.identifier = [identifier]
 
-    documentreference.active = True
-    documentreference.status = fake.doc_ref_status()
-    documentreference.docStatus = fake.doc_ref_doc_status()
-    documentreference.editTime = fake.timestamp()
+    document_reference.active = True
+    document_reference.status = fake.doc_ref_status()
+    #TODO: Check why local fhir server doenst accept defined values (https://build.fhir.org/documentreference.html)
+    #document_reference.docStatus = fake.doc_ref_doc_status()
+    document_reference.editTime = fake.timestamp()
 
     docType = fake.doc_ref_type()
 
@@ -48,7 +52,7 @@ def generate_document_reference(patient, encounter) -> int:
 
     cocoType = cc.CodeableConcept()
     cocoType.coding = [codingType, codingType2]
-    documentreference.type = cocoType
+    document_reference.type = cocoType
 
     codingCategory = cod.Coding()
     codingCategory.system = "http://dvmd.de/fhir/CodeSystem/kdl"
@@ -60,15 +64,20 @@ def generate_document_reference(patient, encounter) -> int:
     codingCategory2.display = docType[2]
     cocoCategory = cc.CodeableConcept()
     cocoCategory.coding = [codingCategory, codingCategory2]
-    documentreference.category = [cocoCategory]
+    document_reference.category = [cocoCategory]
 
     sub_ref = fr.FHIRReference()
     sub_ref.reference = "Patient/{}".format(patient)
-    documentreference.subject = sub_ref
+    document_reference.subject = sub_ref
 
     context_ref = fr.FHIRReference()
+    context = dr.DocumentReferenceContext()
+
+
     context_ref.reference = "Encounter/{}".format(encounter)
-    documentreference.context = context_ref
+    context.encounter = [context_ref]
+
+    document_reference.context = context
 
     attachment = att.Attachment()
     attachment.contentType = fake.att_content_type()
@@ -89,7 +98,9 @@ def generate_document_reference(patient, encounter) -> int:
     codingFormat.display = url[1][1:]
     content1.format = codingFormat
 
-    documentreference.content = [content1]
-    res = documentreference.create(smart.server)
+    document_reference.content = [content1]
 
-    return res['id']
+    #res = document_reference.create(smart.server)
+
+    #return res['id']
+    return document_reference

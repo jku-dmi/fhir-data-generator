@@ -15,7 +15,7 @@ smart = getClient()
 fake = getFaker()
 
 
-def generate_medication(organization):
+def generate_medication():
     medication = m.Medication()
 
     identifier = i.Identifier()
@@ -32,6 +32,7 @@ def generate_medication(organization):
     medication.code = code
 
     medication.status = fake.medication_status()
+    organization = fake.get_organization_id()
 
     manufacurer = fr.FHIRReference()
     manufacurer.reference = "Organization/{}".format(organization)
@@ -62,11 +63,8 @@ def generate_medication(organization):
 
     medication.amount = ratio
 
-
-
-
-
-    res = medication.create(smart.server)
-    return res['id']
+    #res = medication.create(smart.server)
+    #return res['id']
+    return medication
 
 

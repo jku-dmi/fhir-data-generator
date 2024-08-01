@@ -7,14 +7,13 @@ StatusProvider = DynamicProvider(
 
 DocStatusProvider = DynamicProvider(
     provider_name="doc_ref_doc_status",
-    elements=["registered", "partial", "preliminary", "final", "amended", "corrected", "appended", "cancelled",
-              "entered-in-error"],
+    elements=["registered", "partial", "preliminary", "final", "amended", " corrected",
+              "appended", "cancelled", "entered-in-error", "deprecated", "unknown"],
 )
 
 DocTypeProvider = DynamicProvider(
     provider_name="doc_ref_type",
     elements=[
-        ('UB9999', '77599-9', ''),
         ('AU050102', '11488-4', 'Überweisungsschein'),
         ('DG060111', '11524-6', 'EKG-Auswertung'),
         ('DG060203', '18725-2', 'Allergietest'),

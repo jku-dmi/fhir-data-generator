@@ -20,7 +20,7 @@ def generate_organizations(anzahl: int) -> []:
     return ids
 
 
-def generate_orga():
+def generate_orga() -> organization.Organization:
     orga = organization.Organization()
 
     identifier = i.Identifier()
@@ -51,4 +51,4 @@ def generate_orga():
 
     #res = orga.create(smart.server)
     #return res['id']
-    return  orga
+    return orga

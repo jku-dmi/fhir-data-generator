@@ -14,8 +14,11 @@ smart = getClient()
 fake = getFaker()
 
 
-def generate_condition(patient, encounter) -> int:
+def generate_condition() -> c.Condition:
     condition = c.Condition()
+    patient = fake.get_patient_id()
+    encounter = fake.get_encounter_id()
+
     identifier = i.Identifier()
 
     identifier.system = 'http://hospital.smarthealthit.org'
@@ -47,6 +50,6 @@ def generate_condition(patient, encounter) -> int:
 
     condition.recordedDate = fd.FHIRDate(fake.date())
 
-    res = condition.create(smart.server)
-
-    return res['id']
+    #res = condition.create(smart.server)
+    #return res['id']
+    return condition

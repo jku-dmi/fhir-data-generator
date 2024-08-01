@@ -13,7 +13,8 @@ from helpers.faker_instance import getFaker
 smart = getClient()
 fake = getFaker()
 
-def generate_patient() -> int:
+
+def generate_patient() -> p.Patient:
     patient = p.Patient()
     identifier = i.Identifier()
 
@@ -56,6 +57,6 @@ def generate_patient() -> int:
     marital_status.coding = [coding]
     patient.maritalStatus = marital_status
 
-    # Save the Patient resource to the FHIR server
-    res = patient.create(smart.server)
-    return res['id']
+    #res = patient.create(smart.server)
+    #return res['id']
+    return patient

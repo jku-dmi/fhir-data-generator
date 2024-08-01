@@ -15,9 +15,11 @@ smart = getClient()
 fake = getFaker()
 
 
-def generate_episode_of_care(patient, organization):
+def generate_episode_of_care() -> eoc.EpisodeOfCare:
     episode_of_care = eoc.EpisodeOfCare()
 
+    patient = fake.get_patient_id()
+    organization = fake.get_organization_id()
     patient_referenz = fr.FHIRReference()
     patient_referenz.reference = "Patient/{}".format(patient)
     episode_of_care.patient = patient_referenz
@@ -50,23 +52,23 @@ def generate_episode_of_care(patient, organization):
     tuple = fake.timestamps_two()
     start = fd.FHIRDate()
     start.date = tuple[0]
-
     period.start = start
-    print(start.date)
     end = fd.FHIRDate()
     end.date = tuple[1]
-    print(end.date)
 
     if(random.choice([True, False])):
         period.end = end
 
     episode_of_care.period = period
 
-    res = episode_of_care.create(smart.server)
-    return res['id']
+    #res = episode_of_care.create(smart.server)
+    #return res['id']
+    return episode_of_care
 
 
-def set_condition(episode_of_care, condition):
+def add_condition_eoc(episode_of_care, condition) -> int:
     con_ref = fr.FHIRReference()
     con_ref.reference = "Condition/{}".format(condition)
     episode_of_care.diagnosis.condition = con_ref
+    res = episode_of_care.update(smart.server)
+    return res['id']
