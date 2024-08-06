@@ -13,7 +13,6 @@ from helpers.faker_instance import getFaker
 smart = getClient()
 fake = getFaker()
 
-
 def generate_encounter() -> enc.Encounter:
     encounter = enc.Encounter()
     patient = fake.get_patient_id()

@@ -30,7 +30,12 @@ def send_bundle(bundle_: bundle_model.Bundle()) -> json:
         return json.dumps(res.json())
     except FHIRValidationError as e:
         print(f"FHIR Validation Error: {e}")
-
+    except ConnectionError as ce:
+        print(f"Es konnte keine Anfrage an den Server gesendet werden. Bitte überprüfe die Adresse : {smart.server.base_uri}")
+    except ConnectionError as conerr:
+        print(f"Es gab einen Fehler bei der Verbindung: {conerr}")
+    except Exception as e:
+        print(f"Es ist ein Fehler beim Herstellen der Verbindung aufgetreten: {e}")
 
 def generate_organizations(n: int) -> json:
     res = []

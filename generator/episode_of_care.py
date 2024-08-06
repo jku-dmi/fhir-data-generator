@@ -20,15 +20,16 @@ def generate_episode_of_care() -> eoc.EpisodeOfCare:
 
     patient = fake.get_patient_id()
     organization = fake.get_organization_id()
+
     patient_referenz = fr.FHIRReference()
     patient_referenz.reference = "Patient/{}".format(patient)
     episode_of_care.patient = patient_referenz
+
     episode_of_care.status = fake.eoc_status()
 
     mo = fr.FHIRReference()
     mo.reference = 'Organization/{}'.format(organization)
     episode_of_care.managingOrganization = mo
-
 
     identifier = i.Identifier()
     coding = cod.Coding()

@@ -1,4 +1,5 @@
 import json
+import sys
 
 from fhirclient.models import bundle
 
@@ -83,14 +84,25 @@ def main():
     #print(o)
     start_time = time.time()
     result = generate_organizations(100)
-    bundle_response_to_provider(result, "get_organization_id")
+    if result is not None:
+        bundle_response_to_provider(result, "get_organization_id")
+    else:
+        raise Exception("Es konnten keine Organisationen zum FHIR-Server gesendet werden. Bitte überprüfe die "
+                        "Verbindung und starte das Skript erneut.")
+        sys.exit(0)
     end_time = time.time()
     elapsed_time = end_time - start_time
     print(f"Organization - bundle_size = 100 {elapsed_time:.2f} Sekunden.")
 
     start_time = time.time()
     medication_result = generate_medications(500)
-    bundle_response_to_provider(medication_result, "get_medication_id")
+    if medication_result is not None:
+        bundle_response_to_provider(medication_result, "get_medication_id")
+    else:
+        print(
+            "Es konnten keine Medikamente zum FHIR-Server gesendet werden. Bitte überprüfe die Verbindung und starte "
+            "das Skript erneut.")
+        sys.exit(0)
     end_time = time.time()
     elapsed_time = end_time - start_time
     print(f"Medication - bundle_size = 500 {elapsed_time:.2f} Sekunden.")

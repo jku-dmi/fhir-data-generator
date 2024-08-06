@@ -26,9 +26,10 @@ def generate_condition() -> c.Condition:
     identifier.use = 'usual'
     condition.identifier = [identifier]
 
-    condition.meta = m.Meta()
-    condition.profile = ["http://dmi.de/fhir/StructureDefinition/DaWiMedCondition"]
-    condition.meta.lastUpdated = fd.FHIRDate(fake.timestamp())
+    meta = m.Meta()
+    meta.profile = ["http://dmi.de/fhir/StructureDefinition/DaWiMedCondition"]
+    meta.lastUpdated = fd.FHIRDate(fake.timestamp())
+    condition.meta = meta
 
     clinical_status = cc.CodeableConcept()
     coding = cod.Coding()

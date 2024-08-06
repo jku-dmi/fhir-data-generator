@@ -39,8 +39,6 @@ def generate_orga() -> organization.Organization:
 
     orga.name = fake.company()
 
-    orga.telecom = []
-
     address = a.Address()
     address.type = fake.address_type()
     address.line = [fake.street_address()]
