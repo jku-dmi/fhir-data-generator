@@ -6,10 +6,10 @@ import fhirclient.models.fhirreference as fr
 import fhirclient.models.meta as m
 import fhirclient.models.fhirdate as fd
 
-from helpers.fhir_client import getClient
+from helpers.fhir_client import get_client
 from helpers.faker_instance import getFaker
 
-smart = getClient()
+smart = get_client()
 fake = getFaker()
 
 

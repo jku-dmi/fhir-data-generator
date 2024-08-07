@@ -1,27 +1,28 @@
 from fhirclient import client
 from urllib3.exceptions import NewConnectionError, MaxRetryError
 
+from exceptions.FHIRConnection import FHIRConnectionException
+
 settings = {
     'app_id': 'fhir_server',
     'api_base': 'http://localhost:8080/fhir/'
 }
 
 
-def getClient():
-    global connection
+def get_client():
     try:
         connection = client.FHIRClient(settings=settings)
-    except ConnectionRefusedError:
-        print(f"Die Verbindung wurde verweigert. Bitte überprüfe die Verbindung: {settings}")
-    except NewConnectionError:
-        print(
-            f"Es konnte keine Verbindung zum FHIR-Server hergestellt werden. Bitte überprüfe die Verbindung: {settings}")
-    except MaxRetryError:
-        print(
-            f"Es konnte keine Verbindung zum FHIR-Server hergestellt werden. Bitte überprüfe die Verbindung: {settings}")
+    except ConnectionRefusedError as cre:
+        raise FHIRConnectionException(f"Connection refused - please check the connection settings: {settings}", cre)
+    except NewConnectionError as nce:
+        raise FHIRConnectionException(
+            f"new connection failed - please check: {settings}", nce)
+    except MaxRetryError as mre:
+        raise FHIRConnectionException(
+            f"unable to connect - max retries for connection {settings} reached", mre)
     except ConnectionError as conerr:
-        print(f"Es gab einen Fehler bei der Verbindung: {conerr}")
+        raise FHIRConnectionException(f"An error occured while connecting", conerr)
     except Exception as e:
-        print(f"Es ist ein Fehler beim Herstellen der Verbindung aufgetreten: {e}")
+        raise FHIRConnectionException(f"Something unexpected happend", e)
 
     return connection

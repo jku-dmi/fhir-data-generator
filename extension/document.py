@@ -1,7 +1,7 @@
 from fhirclient import client
 from fhirclient.models.fhirabstractbase import FHIRAbstractBase
 
-from helpers.fhir_client import getClient
+from helpers.fhir_client import get_client
 
 
 class Document(FHIRAbstractBase):
@@ -27,7 +27,7 @@ class Document(FHIRAbstractBase):
         ]
 
 
-smart = getClient()
+smart = get_client()
 
 # Erstellen Sie eine Instanz der benutzerdefinierten Ressource als Blueprint
 blueprint_document = {

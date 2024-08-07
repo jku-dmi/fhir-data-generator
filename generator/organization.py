@@ -4,23 +4,23 @@ import fhirclient.models.codeableconcept as cc
 import fhirclient.models.coding as cod
 import fhirclient.models.organization as organization
 
-from helpers.fhir_client import getClient
+from helpers.fhir_client import get_client
 from helpers.faker_instance import getFaker
 
-smart = getClient()
+smart = get_client()
 fake = getFaker()
 
 
-def generate_organizations(anzahl: int) -> []:
-    ids = []
+# def generate_organizations(anzahl: int) -> []:
+    #ids = []
 
-    for i in range(anzahl):
-        ids.append(generate_orga())
+#    for i in range(anzahl):
+#        ids.append(generate_organization())
 
-    return ids
+#    return ids
 
 
-def generate_orga() -> organization.Organization:
+def generate_organization() -> organization.Organization:
     orga = organization.Organization()
 
     identifier = i.Identifier()

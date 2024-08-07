@@ -7,10 +7,10 @@ import fhirclient.models.fhirreference as fr
 import fhirclient.models.attachment as att
 import fhirclient.models.codeableconcept as cc
 
-from helpers.fhir_client import getClient
+from helpers.fhir_client import get_client
 from helpers.faker_instance import getFaker
 
-smart = getClient()
+smart = get_client()
 fake = getFaker()
 def generate_document_reference() -> dr.DocumentReference:
     document_reference = dr.DocumentReference()

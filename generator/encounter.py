@@ -7,10 +7,10 @@ import fhirclient.models.codeableconcept as cc
 import fhirclient.models.fhirreference as fr
 
 from generator.location import generate_location
-from helpers.fhir_client import getClient
+from helpers.fhir_client import get_client
 from helpers.faker_instance import getFaker
 
-smart = getClient()
+smart = get_client()
 fake = getFaker()
 
 def generate_encounter() -> enc.Encounter:

@@ -7,7 +7,7 @@ from generator.organization import generate_organizations
 from generator.patient import generate_patient
 from helpers.create_dynamic_provider import create_dynamic_provider
 from helpers.faker_instance import getFaker
-from helpers.fhir_client import getClient
+from helpers.fhir_client import get_client
 
 
 def generate_bundle(n: int, max_parallel: int):
@@ -34,7 +34,7 @@ def generate_bundle(n: int, max_parallel: int):
     b.type = "transaction"
 
 
-    smart = getClient()
+    smart = get_client()
 
     print(f"Start generating bundle")
     start = time.time()

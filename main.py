@@ -1,20 +1,48 @@
 import json
 import sys
 
+import requests
 from fhirclient.models import bundle
 
 from generator import generate_patient, generate_episode_of_care, generate_encounter, generate_document_reference, \
     generate_condition, generate_procedure
 from generator.data_set import send_bundle, generate_patients, \
-    generate_organizations, generate_medications, generate_resources
+    generate_organizations, generate_medications, generate_resources, generate_data_random_references, generate_data
 from generator.medication.medication_statement import generate_medication_statement
 from helpers.create_dynamic_provider import create_dynamic_provider, bundle_response_to_provider
 from helpers.faker_instance import add_provider, getFaker
 import time
 
+from helpers.fhir_client import get_client
+from helpers.util import split
+
 
 def main():
-    print("Starting the data generation")
+    #res = requests.get("http://localhost:8080/fhir/Patient?_summary=count", headers={'Content-Type': 'application/fhir+json'})
+    #print(f"number of patients: {res.json().get('total')}")
+    #print("Starting the data generation")
+    # generate_data_random_references(patient_count=10000, medication_count=1500, organization_count=1500, encounter_count=20000, episode_of_care_count=20000, procedure_count=25000, document_reference_count=20000, medication_statement_count=15000, condition_count=10000)
+    start_time = time.time()
+    patient_count = 1234
+    bundle_size = 1000
+    reps, rest = divmod(patient_count, bundle_size)
+    result = []
+
+    if reps > 0:
+        for i in range(reps):
+            result.append(generate_resources(generate_patient, "Patient", bundle_size))
+    # regerate rest
+    result.append(generate_resources(generate_patient, "Patient", rest))
+    create_dynamic_provider("get_patient_id", result)
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Patient with generate resource - bundle_size = {bundle_size} ; {elapsed_time:.2f} Sekunden.")
+
+    print("VERSUS\n")
+
+    generate_data(count=1234, resource="Patient", generator=generate_patient, provider_name="get_patient_id")
+    #res = requests.get("http://localhost:8080/fhir/Patient?_summary=count", headers={'Content-Type': 'application/fhir+json'})
+    #print(f"number of patients: {res.json().get('total')}")
     """
     patient = generate_patient()
     print(patient)
@@ -74,7 +102,6 @@ def main():
 
     '''
 
-
     #for i in orga_ids:
     #    print(i)
 
@@ -82,6 +109,7 @@ def main():
     #o = fake.organization_id()
 
     #print(o)
+    """
     start_time = time.time()
     result = generate_organizations(100)
     if result is not None:
@@ -120,7 +148,7 @@ def main():
     end_time = time.time()
     elapsed_time = end_time - start_time
     print(f"Patient with generate resource - bundle_size = 1000 {elapsed_time:.2f} Sekunden.")
-
+"""
 
     """
     start_time = time.time()
@@ -166,5 +194,7 @@ def main():
     print(f"Medication Statement- bundle_size = 75 {elapsed_time:.2f} Sekunden.")
 
     """
+
+
 if __name__ == "__main__":
     main()

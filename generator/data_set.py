@@ -1,46 +1,47 @@
 import concurrent.futures
 import json
-import random
+import time
 from typing import Callable
 
 import requests
 from fhirclient.models import bundle as bundle_model
 from fhirclient.models.fhirabstractbase import FHIRValidationError
 
+from exceptions.FHIRConnection import FHIRConnectionException
 from generator import generate_condition, generate_procedure
 from generator.document_reference import generate_document_reference
 from generator.encounter import generate_encounter, add_condition_encounter
 from generator.episode_of_care import generate_episode_of_care, add_condition_eoc
 from generator.medication.medication_statement import generate_medication_statement
-from generator.organization import generate_orga
+from generator.organization import generate_organization
 from generator.patient import generate_patient
 from generator.medication.medication import generate_medication
-from helpers.create_dynamic_provider import create_dynamic_provider
+from helpers.create_dynamic_provider import create_dynamic_provider, bundle_response_to_provider
 from helpers.faker_instance import getFaker
-from helpers.fhir_client import getClient
+from helpers.fhir_client import get_client
 
 fake = getFaker()
 
 
 def send_bundle(bundle_: bundle_model.Bundle()) -> json:
-    smart = getClient()
+    smart = get_client()
     try:
         res = requests.post(smart.server.base_uri, json=bundle_.as_json(),
                             headers={'Content-Type': 'application/fhir+json'})
         return json.dumps(res.json())
     except FHIRValidationError as e:
-        print(f"FHIR Validation Error: {e}")
+        print(f"FHIR Validation failed: {e}")
     except ConnectionError as ce:
-        print(f"Es konnte keine Anfrage an den Server gesendet werden. Bitte überprüfe die Adresse : {smart.server.base_uri}")
-    except ConnectionError as conerr:
-        print(f"Es gab einen Fehler bei der Verbindung: {conerr}")
+        print(
+            f"Error connecting to the FHIR Server - Please check: {smart.server.base_uri}", ce)
     except Exception as e:
-        print(f"Es ist ein Fehler beim Herstellen der Verbindung aufgetreten: {e}")
+        print(f"Unexpected error while sending a request - error: {e}")
+
 
 def generate_organizations(n: int) -> json:
     res = []
     with concurrent.futures.ThreadPoolExecutor() as executor:
-        future_to_org = {executor.submit(generate_orga): i for i in range(n)}
+        future_to_org = {executor.submit(generate_organization): i for i in range(n)}
         for future in concurrent.futures.as_completed(future_to_org):
             try:
                 org = future.result()
@@ -157,29 +158,143 @@ def generate_resources(function: Callable, resourceType: str, n: int) -> json:
     return send_bundle(b)
 
 
-def generate_patient_data_set(n: int):
-    id = 1
-    res = []
-    patient = generate_patient()
-    organization = fake.get_organization()
-    episode_of_care = generate_episode_of_care(patient, organization)
+def generate_data_random_references(patient_count: int, medication_count: int, organization_count: int,
+                                    encounter_count: int,
+                                    episode_of_care_count: int, condition_count: int, document_reference_count: int,
+                                    procedure_count: int,
+                                    medication_statement_count: int, bundle_size: int = 1000) -> json:
 
-    encounter = generate_encounter(patient, episode_of_care, organization)
+    # generate Organizations
+    print(f"Start generation of {organization_count} organizations")
+    start_time = time.time()
+    result = generate_resources(generate_organization, "Organization", organization_count)
+    if result is not None:
+        bundle_response_to_provider(result, "get_organization_id")
+    else:
+        raise FHIRConnectionException(
+            "Resultset was None - check the response and the connection and restart the script.")
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Organizations generated - elapsed time: {elapsed_time:.2f} seconds.")
 
-    document_reference = generate_document_reference(patient, encounter)
+    # generate medications
+    print(f"Start generation of {medication_count} medications")
+    start_time = time.time()
+    medication_result = generate_resources(generate_medication, "Medication", medication_count)
+    bundle_response_to_provider(medication_result, "get_medication_id")
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Medications generated - elapsed time: {elapsed_time:.2f} seconds.")
 
-    condition = generate_condition(patient, encounter)
+    # Generate patients
+    print(f"Start generation of {patient_count} patients")
+    start_time = time.time()
+    reps, rest = divmod(patient_count, bundle_size)
+    result = []
+    if reps > 0:
+        for i in range(reps):
+            result.append(generate_resources(generate_patient, "Patient", bundle_size))
+    # regerate rest
+    result.append(generate_resources(generate_patient, "Patient", rest))
+    create_dynamic_provider("get_patient_id", result)
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Patients generated - elapsed time: {elapsed_time:.2f} seconds.")
 
-    add_condition_eoc(episode_of_care, condition)
-    add_condition_encounter(encounter, condition)
+    # generate episode of cares
+    print(f"Start generation of {episode_of_care_count} episode of cares")
+    start_time = time.time()
+    episode_of_care_result = generate_resources(generate_episode_of_care, "EpisodeOfCare", episode_of_care_count)
+    bundle_response_to_provider(episode_of_care_result, "get_episode_of_care_id")
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Episode of cares generated - elapsed time: {elapsed_time:.2f} seconds.")
 
-    procedure = generate_procedure(patient, encounter)
+    # generate encounter
+    print(f"Start generation of {encounter_count} encouters")
+    start_time = time.time()
+    encounter_result = generate_resources(generate_encounter, "EpisodeOfCare", encounter_count)
+    bundle_response_to_provider(encounter_result, "get_encounter_id")
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Providers generated - elapsed time: {elapsed_time:.2f} seconds.")
 
-    medication = fake.get_medication()
+    # generate provider
+    print(f"Start generation of {document_reference_count} document references")
+    start_time = time.time()
+    document_reference_result = generate_resources(generate_document_reference, "DocumentReference",
+                                                   document_reference_count)
+    bundle_response_to_provider(document_reference_result, "get_document_reference_id")
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Document references generated - elapsed time: {elapsed_time:.2f} seconds.")
 
-    medication_statement = generate_medication_statement(patient, encounter, medication)
+    # generate condition
+    print(f"Start generation of {condition_count} conditions")
+    start_time = time.time()
+    condition_result = generate_resources(generate_condition, "Condition", condition_count)
+    bundle_response_to_provider(condition_result, "get_condition_id")
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Providers generated - elapsed time: {elapsed_time:.2f} seconds.")
 
-    res.append([patient, organization, episode_of_care, encounter, document_reference, condition, procedure, medication,
-                medication_statement])
+    # generate procedure
+    print(f"Start generation of {procedure_count} procedures")
+    start_time = time.time()
+    procedure_result = generate_resources(generate_procedure, "Procedure", procedure_count)
+    bundle_response_to_provider(procedure_result, "get_procedure_id")
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Procedures generated - elapsed time: {elapsed_time:.2f} seconds.")
 
-    print(res)
+    # generate medication statements
+    print(f"Start generation of {medication_statement_count} medication statements")
+    start_time = time.time()
+    medication_statement_result = generate_resources(generate_medication_statement, "MedicationStatement",
+                                                     medication_statement_count)
+    bundle_response_to_provider(medication_statement_result, "get_medication_statement_id")
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Medication statements generated - elapsed time: {elapsed_time:.2f} seconds.")
+
+
+def generate_data(count: int, resource: str, generator: Callable, provider_name: str, bundle_size: int = 1000):
+    """
+    generate fhir data
+    :param count:
+    :param resource:
+    :param generator:
+    :param provider_name:
+    :param bundle_size:
+    :return:
+    """
+    print(f"Start generation of {count} {resource} resources")
+    start_time = time.time()
+    reps, rest = divmod(count, bundle_size)
+    result = []
+    if reps > 0:
+        for i in range(reps):
+            result.append(generate_resources(generator, resource, bundle_size))
+    # generate rest
+    result.append(generate_resources(generate_patient, resource, rest))
+    create_dynamic_provider(provider_name, result)
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"{resource}s generated - elapsed time: {elapsed_time:.2f} seconds.")
+
+
+def generate_data_set_references(patient_count: int, medication_count: int, organization_count: int,
+                                    encounter_count: int,
+                                    episode_of_care_count: int, condition_count: int, document_reference_count: int,
+                                    procedure_count: int,
+                                    medication_statement_count: int, bundle_size: int = 1000):
+
+    generate_data(organization_count, "Organization", generate_organization, "get_organization_id", bundle_size)
+    generate_data(medication_count, "Medication", generate_medication, "get_medication_id", bundle_size)
+    generate_data(patient_count, "Patient", generate_patient, "get_patient_id", bundle_size)
+    generate_data(episode_of_care_count, "EpisodeOfCare", generate_episode_of_care, "get_episode_of_care_id", bundle_size)
+    generate_data(encounter_count, "Encounter", generate_encounter, "get_encounter_id", bundle_size)
+    generate_data(document_reference_count, "DocumentReference", generate_document_reference, "get_document_reference_id", bundle_size)
+    generate_data(condition_count, "Condition", generate_condition, "get_condition_id", bundle_size)
+    generate_data(procedure_count, "Procedure", generate_procedure, "get_procedure_id", bundle_size)
+    generate_data(medication_statement_count, "MedicationStatement", generate_medication_statement, "get_medication_statement_id", bundle_size)

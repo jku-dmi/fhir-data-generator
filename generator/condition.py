@@ -6,11 +6,11 @@ import fhirclient.models.codeableconcept as cc
 import fhirclient.models.coding as cod
 import fhirclient.models.fhirreference as fr
 
-from helpers.fhir_client import getClient
+from helpers.fhir_client import get_client
 from helpers.faker_instance import getFaker
 from helpers.coding.icd10 import get_icd10_as_cc
 
-smart = getClient()
+smart = get_client()
 fake = getFaker()
 
 
