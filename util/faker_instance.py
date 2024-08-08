@@ -23,43 +23,43 @@ from provider.coding.icd10 import ICD10Provider
 
 fake = Faker(['de'], use_weighting=False)
 
-fake.add_provider(AddressTypeProvider)
-fake.add_provider(GenderProvider)
-fake.add_provider(MaritalStatusProvider)
-fake.add_provider(TimeStampProvider)
-fake.add_provider(OrganisationTypProvider)
-fake.add_provider(EpisodeOfCareStatusProvider)
-fake.add_provider(MaritalStatusProvider)
-fake.add_provider(HumanNameUseProvider)
-fake.add_provider(EpisodeOfCareType)
-fake.add_provider(ClinicalStatusProvider)
-fake.add_provider(ICD10Provider)
-fake.add_provider(EncounterClassProvider)
-fake.add_provider(EncounterStatusProvider)
-fake.add_provider(LocationPhysicalTypeProvider)
-fake.add_provider(EncounterDiagnosisUseTypeProvider)
-fake.add_provider(StatusProvider)
-fake.add_provider(DocStatusProvider)
-fake.add_provider(DocTypeProvider)
-fake.add_provider(DocIdProvider)
-fake.add_provider(TwoTimeStampsProvider)
-fake.add_provider(OidProvider)
-fake.add_provider(AttachmentContentTypeProvider)
-fake.add_provider(AttachmentUrlProvider)
-fake.add_provider(ProcedureStatusProvider)
-fake.add_provider(ProcedureSnomedProvider)
-fake.add_provider(MedStatusProvider)
-fake.add_provider(MedCategoryProvider)
-fake.add_provider(SnowmedCodeProvider)
-fake.add_provider(MedicationStatusProvider)
-fake.add_provider(MedicationFormProvider)
-fake.add_provider(QuantityValueProvider)
-
+fake.add_provider(AddressTypeProvider,
+                  GenderProvider,
+                  MaritalStatusProvider,
+                  TimeStampProvider,
+                  OrganisationTypProvider,
+                  EpisodeOfCareType,
+                  ClinicalStatusProvider,
+                  ICD10Provider,
+                  EncounterClassProvider,
+                  EpisodeOfCareStatusProvider,
+                  HumanNameUseProvider,
+                  ClinicalStatusProvider,
+                  EncounterStatusProvider,
+                  LocationPhysicalTypeProvider,
+                  EncounterDiagnosisUseTypeProvider,
+                  StatusProvider,
+                  DocStatusProvider,
+                  DocTypeProvider,
+                  DocIdProvider,
+                  TwoTimeStampsProvider,
+                  OidProvider,
+                  AttachmentContentTypeProvider,
+                  AttachmentUrlProvider,
+                  ProcedureStatusProvider,
+                  ProcedureSnomedProvider,
+                  MedStatusProvider,
+                  MedCategoryProvider,
+                  SnowmedCodeProvider,
+                  MedicationStatusProvider,
+                  MedicationFormProvider,
+                  QuantityValueProvider)
 
 
 def add_provider(provider):
     fake.add_provider(provider)
     return fake
 
-def getFaker() -> Faker:
+
+def get_faker() -> Faker:
     return fake

@@ -8,11 +8,11 @@ import fhirclient.models.identifier as i
 import fhirclient.models.ratio as r
 import fhirclient.models.quantity as q
 
-from helpers.fhir_client import get_client
-from helpers.faker_instance import getFaker
+from util.fhir_client import get_client
+from util.faker_instance import get_faker
 
 smart = get_client()
-fake = getFaker()
+fake = get_faker()
 
 
 def generate_medication():

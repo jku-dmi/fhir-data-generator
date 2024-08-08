@@ -1,5 +1,5 @@
 import fhirclient.models.encounter as enc
-import fhirclient.models.fhirdate as fd
+import fhirclient.models.fhirdatetime as fdt
 import fhirclient.models.identifier as i
 import fhirclient.models.period as per
 import fhirclient.models.coding as cod
@@ -7,11 +7,11 @@ import fhirclient.models.codeableconcept as cc
 import fhirclient.models.fhirreference as fr
 
 from generator.location import generate_location
-from helpers.fhir_client import get_client
-from helpers.faker_instance import getFaker
+from util.fhir_client import get_client
+from util.faker_instance import get_faker
 
 smart = get_client()
-fake = getFaker()
+fake = get_faker()
 
 def generate_encounter() -> enc.Encounter:
     encounter = enc.Encounter()
@@ -53,20 +53,18 @@ def generate_encounter() -> enc.Encounter:
     encounter.status = fake.encounter_status()
 
     p = per.Period()
-    p.start = fd.FHIRDate(fake.timestamp())
-    p.end = fd.FHIRDate(fake.timestamp())
+
+    start = fdt.FHIRDateTime()
+    start.date = fake.date_time()
+    end = fdt.FHIRDateTime()
+    end.date = fake.date_time()
+    p.start = start
+    p.end = end
     encounter.period = p
 
-    orga_ref = fr.FHIRReference()
-    orga_ref.reference = "Organization/{}".format(organization)
-    encounter_location = enc.EncounterLocation()
-    encounter_location.managingOrganization = orga_ref
-
-    location = generate_location(organization)
-    loc_ref = fr.FHIRReference()
-    loc_ref.reference = "Location/{}".format(location)
-    encounter_location.location = loc_ref
-    encounter.location = [encounter_location]
+    organization_ref = fr.FHIRReference()
+    organization_ref.reference = "Organization/{}".format(organization)
+    encounter.serviceProvider = organization_ref
 
     #res = encounter.create(smart.server)
     #return res['id']

@@ -7,11 +7,11 @@ import fhirclient.models.fhirreference as fr
 import fhirclient.models.attachment as att
 import fhirclient.models.codeableconcept as cc
 
-from helpers.fhir_client import get_client
-from helpers.faker_instance import getFaker
+from util.fhir_client import get_client
+from util.faker_instance import get_faker
 
 smart = get_client()
-fake = getFaker()
+fake = get_faker()
 def generate_document_reference() -> dr.DocumentReference:
     document_reference = dr.DocumentReference()
     patient = fake.get_patient_id()

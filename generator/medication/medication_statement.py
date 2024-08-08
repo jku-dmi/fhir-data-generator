@@ -4,13 +4,13 @@ import fhirclient.models.codeableconcept as cc
 import fhirclient.models.coding as cod
 import fhirclient.models.fhirreference as fr
 import fhirclient.models.meta as m
-import fhirclient.models.fhirdate as fd
+import fhirclient.models.fhirdatetime as fdt
 
-from helpers.fhir_client import get_client
-from helpers.faker_instance import getFaker
+from util.fhir_client import get_client
+from util.faker_instance import get_faker
 
 smart = get_client()
-fake = getFaker()
+fake = get_faker()
 
 
 def generate_medication_statement() -> ms.MedicationStatement:
@@ -44,7 +44,7 @@ def generate_medication_statement() -> ms.MedicationStatement:
     context.reference = 'Encounter/{}'.format(encounter)
     medication_statement.context = context
 
-    effective_date_time = fd.FHIRDate()
+    effective_date_time = fdt.FHIRDateTime()
     effective_date_time.dateTime = fake.date_time()
     medication_statement.effectiveDateTime = effective_date_time
 

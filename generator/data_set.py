@@ -7,7 +7,7 @@ import requests
 from fhirclient.models import bundle as bundle_model
 from fhirclient.models.fhirabstractbase import FHIRValidationError
 
-from exceptions.FHIRConnection import FHIRConnectionException
+from exceptions.fhir_connection_error import FhirConnection
 from generator import generate_condition, generate_procedure
 from generator.document_reference import generate_document_reference
 from generator.encounter import generate_encounter, add_condition_encounter
@@ -16,15 +16,27 @@ from generator.medication.medication_statement import generate_medication_statem
 from generator.organization import generate_organization
 from generator.patient import generate_patient
 from generator.medication.medication import generate_medication
-from helpers.create_dynamic_provider import create_dynamic_provider, bundle_response_to_provider
-from helpers.faker_instance import getFaker
-from helpers.fhir_client import get_client
+from util.create_dynamic_provider import create_dynamic_provider, bundle_response_to_provider
+from util.faker_instance import get_faker
+from util.fhir_client import get_client
 
-fake = getFaker()
+fake = get_faker()
+smart = get_client()
+
+
+def save_bundle(bundle_: bundle_model.Bundle(), file_name) -> str:
+    try:
+        data = bundle_.as_json()
+        with open(file_name, 'a', encoding='utf-8') as f:  # a = append, w = write
+            json.dump(data, f, ensure_ascii=False, indent=4)
+        return file_name
+    except IOError as e:
+        print(f"IO Error while writing {file_name} - log: {e}")
+    except Exception as e:
+        print(f"Unexpected error while sending a request - log: {e}")
 
 
 def send_bundle(bundle_: bundle_model.Bundle()) -> json:
-    smart = get_client()
     try:
         res = requests.post(smart.server.base_uri, json=bundle_.as_json(),
                             headers={'Content-Type': 'application/fhir+json'})
@@ -35,7 +47,7 @@ def send_bundle(bundle_: bundle_model.Bundle()) -> json:
         print(
             f"Error connecting to the FHIR Server - Please check: {smart.server.base_uri}", ce)
     except Exception as e:
-        print(f"Unexpected error while sending a request - error: {e}")
+        print(f"Unexpected error while sending a request - log: {e}")
 
 
 def generate_organizations(n: int) -> json:
@@ -47,7 +59,7 @@ def generate_organizations(n: int) -> json:
                 org = future.result()
                 res.append(org)
             except Exception as e:
-                print(f"Organization generation failed with exception: {e}")
+                print(f"Organization generation failed - log: {e}")
 
     bundle_entries = []
     for o in res:
@@ -123,11 +135,12 @@ def generate_patients(n: int) -> json:
     return send_bundle(b)
 
 
-def generate_resources(function: Callable, resourceType: str, n: int) -> json:
+def generate_resources(function: Callable, resource_type: str, n: int, destination: str | None) -> json:
     """
     Generate any number of fhir resources.
+    :param destination: if set write to file, otherwise send resource directly to the server
     :param function: Function who generates and returns one resource.
-    :param resourceType: Resource name to put it as request url.
+    :param resource_type: Resource name to put it as request url.
     :param n: Number of resources to generate.
     :return: Response of server.
     """
@@ -148,14 +161,18 @@ def generate_resources(function: Callable, resourceType: str, n: int) -> json:
             entry.resource = e
             request = bundle_model.BundleEntryRequest()
             request.method = "POST"
-            request.url = resourceType
+            request.url = resource_type
             entry.request = request
             bundle_entries.append(entry)
 
         b = bundle_model.Bundle()
         b.type = "transaction"
         b.entry = bundle_entries
-    return send_bundle(b)
+
+    if destination:
+        return save_bundle(b, destination)
+    else:
+        return send_bundle(b)
 
 
 def generate_data_random_references(patient_count: int, medication_count: int, organization_count: int,
@@ -163,7 +180,6 @@ def generate_data_random_references(patient_count: int, medication_count: int, o
                                     episode_of_care_count: int, condition_count: int, document_reference_count: int,
                                     procedure_count: int,
                                     medication_statement_count: int, bundle_size: int = 1000) -> json:
-
     # generate Organizations
     print(f"Start generation of {organization_count} organizations")
     start_time = time.time()
@@ -171,7 +187,7 @@ def generate_data_random_references(patient_count: int, medication_count: int, o
     if result is not None:
         bundle_response_to_provider(result, "get_organization_id")
     else:
-        raise FHIRConnectionException(
+        raise FhirConnection(
             "Resultset was None - check the response and the connection and restart the script.")
     end_time = time.time()
     elapsed_time = end_time - start_time
@@ -211,7 +227,7 @@ def generate_data_random_references(patient_count: int, medication_count: int, o
     print(f"Episode of cares generated - elapsed time: {elapsed_time:.2f} seconds.")
 
     # generate encounter
-    print(f"Start generation of {encounter_count} encouters")
+    print(f"Start generation of {encounter_count} encounters")
     start_time = time.time()
     encounter_result = generate_resources(generate_encounter, "EpisodeOfCare", encounter_count)
     bundle_response_to_provider(encounter_result, "get_encounter_id")
@@ -258,43 +274,92 @@ def generate_data_random_references(patient_count: int, medication_count: int, o
     print(f"Medication statements generated - elapsed time: {elapsed_time:.2f} seconds.")
 
 
-def generate_data(count: int, resource: str, generator: Callable, provider_name: str, bundle_size: int = 1000):
+def generate_data(count: int, resource_type: str, generator: Callable, provider_name: str | None,
+                  destination: str | None, bundle_size: int = 1000) -> None:
     """
     generate fhir data
-    :param count:
-    :param resource:
-    :param generator:
-    :param provider_name:
-    :param bundle_size:
-    :return:
+    :param count: number of resources to generate
+    :param resource_type: resource type
+    :param generator: Callable(method) that generates the data
+    :param provider_name: If set - create a dynamic Faker provider to return the id of a random resource from the generated set
+    :param destination: None = send data to FHIR Server, "*" = save data in file with the given name
+    :param bundle_size: maximum number of resources to put into a bundle (default = 1000)
+    :return: None
     """
-    print(f"Start generation of {count} {resource} resources")
+    print(f"Start generation of {count} {resource_type} resources")
     start_time = time.time()
     reps, rest = divmod(count, bundle_size)
     result = []
-    if reps > 0:
-        for i in range(reps):
-            result.append(generate_resources(generator, resource, bundle_size))
-    # generate rest
-    result.append(generate_resources(generate_patient, resource, rest))
-    create_dynamic_provider(provider_name, result)
+    if destination is None:
+        if reps > 0:
+            for i in range(reps):
+                result.append(generate_resources(generator, resource_type, bundle_size, destination))
+        # generate rest
+        result.append(generate_resources(generate_patient, resource_type, rest, destination))
+
+    if destination is not None:
+        with open(destination, 'a', encoding='utf-8') as f:  # a = append, w = write
+            f.writelines("[")
+        if reps > 0:
+            for i in range(reps):
+                result.append(generate_resources(generator, resource_type, bundle_size, destination))
+                with open(destination, 'a', encoding='utf-8') as f:  # a = append, w = write
+                    f.writelines(",")
+        # generate rest
+        result.append(generate_resources(generate_patient, resource_type, rest, destination))
+        with open(destination, 'a', encoding='utf-8') as f:  # a = append, w = write
+            f.writelines("]")
+    if provider_name is not None:
+        create_dynamic_provider(provider_name, result)
     end_time = time.time()
     elapsed_time = end_time - start_time
-    print(f"{resource}s generated - elapsed time: {elapsed_time:.2f} seconds.")
+    print(f"{resource_type}s generated - elapsed time: {elapsed_time:.2f} seconds.")
 
 
 def generate_data_set_references(patient_count: int, medication_count: int, organization_count: int,
-                                    encounter_count: int,
-                                    episode_of_care_count: int, condition_count: int, document_reference_count: int,
-                                    procedure_count: int,
-                                    medication_statement_count: int, bundle_size: int = 1000):
+                                 encounter_count: int,
+                                 episode_of_care_count: int, condition_count: int, document_reference_count: int,
+                                 procedure_count: int,
+                                 medication_statement_count: int, write_to_file: bool, bundle_size: int = 1000):
 
-    generate_data(organization_count, "Organization", generate_organization, "get_organization_id", bundle_size)
-    generate_data(medication_count, "Medication", generate_medication, "get_medication_id", bundle_size)
-    generate_data(patient_count, "Patient", generate_patient, "get_patient_id", bundle_size)
-    generate_data(episode_of_care_count, "EpisodeOfCare", generate_episode_of_care, "get_episode_of_care_id", bundle_size)
-    generate_data(encounter_count, "Encounter", generate_encounter, "get_encounter_id", bundle_size)
-    generate_data(document_reference_count, "DocumentReference", generate_document_reference, "get_document_reference_id", bundle_size)
-    generate_data(condition_count, "Condition", generate_condition, "get_condition_id", bundle_size)
-    generate_data(procedure_count, "Procedure", generate_procedure, "get_procedure_id", bundle_size)
-    generate_data(medication_statement_count, "MedicationStatement", generate_medication_statement, "get_medication_statement_id", bundle_size)
+    if write_to_file:
+        print(write_to_file)
+        generate_data(organization_count, "Organization", generate_organization,
+                      "get_organization_id", "organization.json", bundle_size)
+        generate_data(medication_count, "Medication", generate_medication, "get_medication_id",
+                      "medication.json", bundle_size)
+        generate_data(patient_count, "Patient", generate_patient, "get_patient_id",
+                      "patient.json", bundle_size)
+        generate_data(episode_of_care_count, "EpisodeOfCare", generate_episode_of_care,
+                      "get_episode_of_care_id", "episode_of_care.json", bundle_size)
+        generate_data(encounter_count, "Encounter", generate_encounter, "get_encounter_id",
+                      "encounter.json", bundle_size)
+        generate_data(document_reference_count, "DocumentReference", generate_document_reference,
+                      "get_document_reference_id", "document_reference.json", bundle_size)
+        generate_data(condition_count, "Condition", generate_condition, "get_condition_id",
+                      "condition.json", bundle_size)
+        generate_data(procedure_count, "Procedure", generate_procedure, "get_procedure_id",
+                      "procedure.json", bundle_size)
+        generate_data(medication_statement_count, "MedicationStatement", generate_medication_statement,
+                      "get_medication_statement_id", "medication_statement.json", bundle_size)
+
+    if not write_to_file:
+        destination = None
+        generate_data(organization_count, "Organization", generate_organization,
+                      "get_organization_id", destination, bundle_size)
+        generate_data(medication_count, "Medication", generate_medication, "get_medication_id",
+                      destination, bundle_size)
+        generate_data(patient_count, "Patient", generate_patient, "get_patient_id", destination,
+                      bundle_size)
+        generate_data(episode_of_care_count, "EpisodeOfCare", generate_episode_of_care,
+                      "get_episode_of_care_id", destination, bundle_size)
+        generate_data(encounter_count, "Encounter", generate_encounter, "get_encounter_id",
+                      destination, bundle_size)
+        generate_data(document_reference_count, "DocumentReference", generate_document_reference,
+                      "get_document_reference_id", destination, bundle_size)
+        generate_data(condition_count, "Condition", generate_condition, "get_condition_id",
+                      destination, bundle_size)
+        generate_data(procedure_count, "Procedure", generate_procedure, "get_procedure_id",
+                      destination, bundle_size)
+        generate_data(medication_statement_count, "MedicationStatement", generate_medication_statement,
+                      "get_medication_statement_id", destination, bundle_size)

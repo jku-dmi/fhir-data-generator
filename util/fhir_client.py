@@ -1,7 +1,7 @@
 from fhirclient import client
 from urllib3.exceptions import NewConnectionError, MaxRetryError
 
-from exceptions.FHIRConnection import FHIRConnectionException
+from exceptions.fhir_connection_error import FhirConnection
 
 settings = {
     'app_id': 'fhir_server',
@@ -13,16 +13,16 @@ def get_client():
     try:
         connection = client.FHIRClient(settings=settings)
     except ConnectionRefusedError as cre:
-        raise FHIRConnectionException(f"Connection refused - please check the connection settings: {settings}", cre)
+        raise FhirConnection(f"Connection refused - please check the connection settings: {settings}", cre)
     except NewConnectionError as nce:
-        raise FHIRConnectionException(
+        raise FhirConnection(
             f"new connection failed - please check: {settings}", nce)
     except MaxRetryError as mre:
-        raise FHIRConnectionException(
+        raise FhirConnection(
             f"unable to connect - max retries for connection {settings} reached", mre)
     except ConnectionError as conerr:
-        raise FHIRConnectionException(f"An error occured while connecting", conerr)
+        raise FhirConnection(f"An error occured while connecting", conerr)
     except Exception as e:
-        raise FHIRConnectionException(f"Something unexpected happend", e)
+        raise FhirConnection(f"Something unexpected happend", e)
 
     return connection

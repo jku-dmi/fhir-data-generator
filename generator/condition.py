@@ -1,17 +1,18 @@
 import fhirclient.models.condition as c
-import fhirclient.models.fhirdate as fd
+import fhirclient.models.fhirdatetime as fdt
+import fhirclient.models.fhirinstant as fi
 import fhirclient.models.meta as m
 import fhirclient.models.identifier as i
 import fhirclient.models.codeableconcept as cc
 import fhirclient.models.coding as cod
 import fhirclient.models.fhirreference as fr
 
-from helpers.fhir_client import get_client
-from helpers.faker_instance import getFaker
-from helpers.coding.icd10 import get_icd10_as_cc
+from util.fhir_client import get_client
+from util.faker_instance import get_faker
+from util.coding.icd10 import get_icd10_as_cc
 
 smart = get_client()
-fake = getFaker()
+fake = get_faker()
 
 
 def generate_condition() -> c.Condition:
@@ -28,7 +29,9 @@ def generate_condition() -> c.Condition:
 
     meta = m.Meta()
     meta.profile = ["http://dmi.de/fhir/StructureDefinition/DaWiMedCondition"]
-    meta.lastUpdated = fd.FHIRDate(fake.timestamp())
+    last_updated = fi.FHIRInstant()
+    last_updated.datetime = fake.date_time()
+    meta.lastUpdated = last_updated
     condition.meta = meta
 
     clinical_status = cc.CodeableConcept()
@@ -49,7 +52,9 @@ def generate_condition() -> c.Condition:
     enc_ref.reference = "Encounter/{}".format(encounter)
     condition.encounter = enc_ref
 
-    condition.recordedDate = fd.FHIRDate(fake.date())
+    recorded_date = fdt.FHIRDateTime()
+    recorded_date.date = fake.date_time()
+    condition.recordedDate = recorded_date
 
     #res = condition.create(smart.server)
     #return res['id']

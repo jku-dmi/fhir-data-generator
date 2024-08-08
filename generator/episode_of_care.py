@@ -7,12 +7,13 @@ import fhirclient.models.episodeofcare as eoc
 import fhirclient.models.fhirreference as fr
 import fhirclient.models.period as p
 import fhirclient.models.fhirdate as fd
+import fhirclient.models.fhirdatetime as fdt
 
-from helpers.fhir_client import get_client
-from helpers.faker_instance import getFaker
+from util.fhir_client import get_client
+from util.faker_instance import get_faker
 
 smart = get_client()
-fake = getFaker()
+fake = get_faker()
 
 
 def generate_episode_of_care() -> eoc.EpisodeOfCare:
@@ -50,12 +51,12 @@ def generate_episode_of_care() -> eoc.EpisodeOfCare:
     episode_of_care.identifier = [identifier]
 
     period = p.Period()
-    tuple = fake.timestamps_two()
-    start = fd.FHIRDate()
-    start.date = tuple[0]
+    timestamp_tuple = fake.timestamps_two()
+    start = fdt.FHIRDateTime()
+    start.date = timestamp_tuple[0]
     period.start = start
-    end = fd.FHIRDate()
-    end.date = tuple[1]
+    end = fdt.FHIRDateTime()
+    end.date = timestamp_tuple[1]
 
     if(random.choice([True, False])):
         period.end = end

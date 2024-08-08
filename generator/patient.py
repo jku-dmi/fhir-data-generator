@@ -1,3 +1,4 @@
+import fhirclient
 import fhirclient.models.patient as p
 import fhirclient.models.fhirdate as fd
 import fhirclient.models.meta as m
@@ -6,12 +7,13 @@ import fhirclient.models.humanname as h
 import fhirclient.models.address as a
 import fhirclient.models.codeableconcept as cc
 import fhirclient.models.coding as cod
+import fhirclient.models.fhirinstant as fi
 
-from helpers.fhir_client import get_client
-from helpers.faker_instance import getFaker
+from util.fhir_client import get_client
+from util.faker_instance import get_faker
 
 smart = get_client()
-fake = getFaker()
+fake = get_faker()
 
 
 def generate_patient() -> p.Patient:
@@ -25,9 +27,9 @@ def generate_patient() -> p.Patient:
 
     patient.meta = m.Meta()
     patient.meta.versionId = '1'
-    fhirdate = fd.FHIRDate()
-    fhirdate.date = fake.date_time()
-    patient.meta.lastUpdated = fhirdate
+    fhir_instant = fi.FHIRInstant()
+    fhir_instant.datetime = fake.date_time()
+    patient.meta.lastUpdated = fhir_instant
 
     humanname = h.HumanName()
     humanname.use = fake.human_name_use()
@@ -57,6 +59,4 @@ def generate_patient() -> p.Patient:
     marital_status.coding = [coding]
     patient.maritalStatus = marital_status
 
-    #res = patient.create(smart.server)
-    #return res['id']
     return patient

@@ -2,14 +2,14 @@ import fhirclient.models.codeableconcept as cc
 import fhirclient.models.coding as cod
 import fhirclient.models.procedure as proc
 import fhirclient.models.fhirreference as fr
-import fhirclient.models.fhirdate as fd
+import fhirclient.models.fhirdatetime as fdt
 import fhirclient.models.meta as m
 
-from helpers.fhir_client import get_client
-from helpers.faker_instance import getFaker
+from util.fhir_client import get_client
+from util.faker_instance import get_faker
 
 smart = get_client()
-fake = getFaker()
+fake = get_faker()
 
 
 def generate_procedure() -> proc.Procedure:
@@ -32,7 +32,7 @@ def generate_procedure() -> proc.Procedure:
     encounter_reference.reference = 'Encounter/{}'.format(encounter)
     procedure.encounter = encounter_reference
 
-    performed_date_time = fd.FHIRDate()
+    performed_date_time = fdt.FHIRDateTime()
     performed_date_time.date = fake.date_time()
     procedure.performedDateTime = performed_date_time
 

@@ -3,7 +3,7 @@ from typing import List
 
 from faker.providers import DynamicProvider
 
-from helpers.faker_instance import add_provider
+from util.faker_instance import add_provider
 
 
 def create_dynamic_provider(provider_name, elements):

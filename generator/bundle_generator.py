@@ -3,11 +3,11 @@ import fhirclient.models.bundle as bundle
 import time
 import concurrent.futures
 
-from generator.organization import generate_organizations
+from generator.organization import generate_organization
 from generator.patient import generate_patient
-from helpers.create_dynamic_provider import create_dynamic_provider
-from helpers.faker_instance import getFaker
-from helpers.fhir_client import get_client
+from util.create_dynamic_provider import create_dynamic_provider
+from util.faker_instance import get_faker
+from util.fhir_client import get_client
 
 
 def generate_bundle(n: int, max_parallel: int):
@@ -16,12 +16,12 @@ def generate_bundle(n: int, max_parallel: int):
     :param batch_size: Size of a batch to send to the server
     :param max_parallel: Maximum number of threads
     """
-    fake = getFaker()
+    fake = get_faker()
     print("Starting the data generation")
 
     # define how many organizations should be generated
     orga_count = 10
-    orga_ids = generate_organizations(orga_count)
+    orga_ids = generate_organization(orga_count)
     create_dynamic_provider("organization_id", orga_ids)
 
     for i in orga_ids:
