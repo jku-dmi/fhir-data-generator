@@ -18,7 +18,7 @@ def create_dynamic_provider(provider_name, elements):
         print(f"Error creating dynamic provider - Error: {e}")
 
 
-def bundle_response_to_provider(response: str | List, provider_name: str):
+def bundle_response_to_provider(response: List | str, provider_name: str):
     if response is str:
         try:
             bundle = json.loads(response)
@@ -34,15 +34,29 @@ def bundle_response_to_provider(response: str | List, provider_name: str):
 
     if response is List:
         ids = []
-        for n in response:
-            try:
-                bundle = json.loads(n)
-                for entry in bundle['entry']:
-                    location = entry['response']['location']
-                    res_id = location.split('/')[1]
-                    ids.append(res_id)
-                # print(ids)
-            except Exception as e:
-                print(f"Error creating dynamic provider from response: List - Error: {e}")
+        try:
+            bundle = json.loads(response)
+            for entry in bundle['entry']:
+                location = entry['response']['location']
+                res_id = location.split('/')[1]
+                ids.append(res_id)
+        except Exception as e:
+            print(f"Error creating dynamic provider from response: List - Error: {e}")
 
         create_dynamic_provider(provider_name, ids)
+
+
+def bundle_response_list_to_provider(response: List, provider_name: str):
+
+    ids = []
+    try:
+        for e in response:
+            print(f"{e}")
+            bundle = json.loads(e)
+            for entry in bundle['entry']:
+                location = entry['response']['location']
+                res_id = location.split('/')[1]
+                ids.append(res_id)
+    except Exception as e:
+        print(f"Error creating dynamic provider from response: List - Error: {e}")
+    create_dynamic_provider(provider_name, ids)

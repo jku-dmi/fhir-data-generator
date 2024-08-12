@@ -2,8 +2,8 @@ from faker import Faker
 
 from provider.address import AddressTypeProvider
 from provider.condition.providers import ClinicalStatusProvider
-from provider.document_reference.providers import StatusProvider, DocStatusProvider, DocTypeProvider, \
-    AttachmentContentTypeProvider, AttachmentUrlProvider
+from provider.document_reference.providers import DocStatusProvider, DocTypeProvider, \
+    AttachmentContentTypeProvider, AttachmentUrlProvider, DocRefStatusProvider
 from provider.encounter.providers import EncounterClassProvider, EncounterStatusProvider, \
     EncounterDiagnosisUseTypeProvider
 from provider.episode_of_care.providers import EpisodeOfCareStatusProvider, EpisodeOfCareType
@@ -23,37 +23,41 @@ from provider.coding.icd10 import ICD10Provider
 
 fake = Faker(['de'], use_weighting=False)
 
-fake.add_provider(AddressTypeProvider,
-                  GenderProvider,
-                  MaritalStatusProvider,
-                  TimeStampProvider,
-                  OrganisationTypProvider,
-                  EpisodeOfCareType,
-                  ClinicalStatusProvider,
-                  ICD10Provider,
-                  EncounterClassProvider,
-                  EpisodeOfCareStatusProvider,
-                  HumanNameUseProvider,
-                  ClinicalStatusProvider,
-                  EncounterStatusProvider,
-                  LocationPhysicalTypeProvider,
-                  EncounterDiagnosisUseTypeProvider,
-                  StatusProvider,
-                  DocStatusProvider,
-                  DocTypeProvider,
-                  DocIdProvider,
-                  TwoTimeStampsProvider,
-                  OidProvider,
-                  AttachmentContentTypeProvider,
-                  AttachmentUrlProvider,
-                  ProcedureStatusProvider,
-                  ProcedureSnomedProvider,
-                  MedStatusProvider,
-                  MedCategoryProvider,
-                  SnowmedCodeProvider,
-                  MedicationStatusProvider,
-                  MedicationFormProvider,
-                  QuantityValueProvider)
+providers = [
+    AddressTypeProvider,
+    GenderProvider,
+    MaritalStatusProvider,
+    TimeStampProvider,
+    OrganisationTypProvider,
+    EpisodeOfCareStatusProvider,
+    HumanNameUseProvider,
+    EpisodeOfCareType,
+    ClinicalStatusProvider,
+    ICD10Provider,
+    EncounterClassProvider,
+    EncounterStatusProvider,
+    LocationPhysicalTypeProvider,
+    EncounterDiagnosisUseTypeProvider,
+    DocRefStatusProvider,
+    DocStatusProvider,
+    DocTypeProvider,
+    DocIdProvider,
+    TwoTimeStampsProvider,
+    OidProvider,
+    AttachmentContentTypeProvider,
+    AttachmentUrlProvider,
+    ProcedureStatusProvider,
+    ProcedureSnomedProvider,
+    MedStatusProvider,
+    MedCategoryProvider,
+    SnowmedCodeProvider,
+    MedicationStatusProvider,
+    MedicationFormProvider,
+    QuantityValueProvider,
+]
+
+for p in providers:
+    fake.add_provider(p)
 
 
 def add_provider(provider):

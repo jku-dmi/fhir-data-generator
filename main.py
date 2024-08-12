@@ -1,4 +1,9 @@
-from generator.data_set import generate_data_set_references
+from factory.data_to_file import generate_data_random_references_to_file
+from factory.data_to_server import generate_data_random_references_to_server
+from generator.data_set import generate_data_random_references
+from generator.medication.medication import generate_medication
+from util.util import send_json_to_sever
+
 
 def main():
     #res = requests.get("http://localhost:8080/fhir/Patient?_summary=count", headers={'Content-Type': 'application/fhir+json'})
@@ -6,8 +11,23 @@ def main():
     #print("Starting the data generation")
     # generate_data_random_references(patient_count=10000, medication_count=1500, organization_count=1500, encounter_count=20000, episode_of_care_count=20000, procedure_count=25000, document_reference_count=20000, medication_statement_count=15000, condition_count=10000)
 
-    generate_data_set_references(patient_count=10000, medication_count=10000, organization_count=10000, encounter_count=10000, episode_of_care_count=10000, procedure_count=10000, document_reference_count=10000, medication_statement_count=10000, condition_count=10000, write_to_file=True, bundle_size=1000)
-    print("VERSUS\n")
+    generate_data_random_references_to_server(patient_count=100000, medication_count=100000, organization_count=100000, encounter_count=100000,
+                                    episode_of_care_count=100000, procedure_count=100000, document_reference_count=100000,
+                                    medication_statement_count=100000, condition_count=100000, bundle_size=5000)
+    # send_json_to_sever("./patient.json", "get_patient_id")
+    """print("Now send to files the server\n")
+    send_json_to_sever("./organization.json", "get_organization_id")
+    send_json_to_sever("./patient.json", "get_patient_id")
+    send_json_to_sever("./medication.json", "get_medication_id")
+    send_json_to_sever("./episode_of_care.json", "get_episode_of_care_id")
+    send_json_to_sever("./encounter.json", "get_encounter_id")
+    send_json_to_sever("./document_reference.json", "get_document_reference_id")
+    send_json_to_sever("./condition.json", "get_condition_id")
+    send_json_to_sever("./procedure.json", "get_procedure_id")
+    send_json_to_sever("./medication_statement.json", "get_medication_statement_id")
+"""
+    #response = generate_medication()
+    #print(response)
 
     #generate_data(count=1234, resource="Patient", generator=generate_patient, provider_name="get_patient_id")
     #res = requests.get("http://localhost:8080/fhir/Patient?_summary=count", headers={'Content-Type': 'application/fhir+json'})

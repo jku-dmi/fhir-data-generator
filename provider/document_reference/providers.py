@@ -1,6 +1,6 @@
 from faker.providers import DynamicProvider
 
-StatusProvider = DynamicProvider(
+DocRefStatusProvider = DynamicProvider(
     provider_name="doc_ref_status",
     elements=["current", "superseded", "entered-in-error"],
 )
