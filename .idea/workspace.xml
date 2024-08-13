@@ -4,25 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fabb222-5e7b-4289-81fd-5e64d5ec8aa9" name="Changes" comment="code improvements">
-      <change afterPath="$PROJECT_DIR$/exceptions/could_not_read_file.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/factory/data_to_file.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/factory/data_to_server.py" afterDir="false" />
+    <list default="true" id="3fabb222-5e7b-4289-81fd-5e64d5ec8aa9" name="Changes" comment="destroyed everything with last commit and fixed most of it again :)">
+      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generator/condition.py" beforeDir="false" afterPath="$PROJECT_DIR$/generator/condition.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generator/data_set.py" beforeDir="false" afterPath="$PROJECT_DIR$/generator/data_set.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generator/document_reference.py" beforeDir="false" afterPath="$PROJECT_DIR$/generator/document_reference.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generator/encounter.py" beforeDir="false" afterPath="$PROJECT_DIR$/generator/encounter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generator/episode_of_care.py" beforeDir="false" afterPath="$PROJECT_DIR$/generator/episode_of_care.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generator/medication/medication.py" beforeDir="false" afterPath="$PROJECT_DIR$/generator/medication/medication.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generator/medication/medication_statement.py" beforeDir="false" afterPath="$PROJECT_DIR$/generator/medication/medication_statement.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generator/organization.py" beforeDir="false" afterPath="$PROJECT_DIR$/generator/organization.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generator/procedure.py" beforeDir="false" afterPath="$PROJECT_DIR$/generator/procedure.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/provider/document_reference/providers.py" beforeDir="false" afterPath="$PROJECT_DIR$/provider/document_reference/providers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/create_dynamic_provider.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/create_dynamic_provider.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/faker_instance.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/faker_instance.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/util.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/fhir_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/fhir_client.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,26 +48,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Python.bundle-generator.executor": "Run",
-    "Python.document.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.oraganization.executor": "Run",
-    "Python.organization.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/KuziaJ/PycharmProjects/data-generator/generators",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Python.bundle-generator.executor&quot;: &quot;Run&quot;,
+    &quot;Python.document.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.oraganization.executor&quot;: &quot;Run&quot;,
+    &quot;Python.organization.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/KuziaJ/PycharmProjects/data-generator/generators&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\KuziaJ\PycharmProjects\data-generator\generators" />
@@ -160,7 +146,9 @@
       <workItem from="1723277455390" duration="5984000" />
       <workItem from="1723394530751" duration="1446000" />
       <workItem from="1723478083245" duration="2778000" />
-      <workItem from="1723485788111" duration="9272000" />
+      <workItem from="1723485788111" duration="10160000" />
+      <workItem from="1723535113587" duration="789000" />
+      <workItem from="1723555604679" duration="5756000" />
     </task>
     <task id="LOCAL-00001" summary="inital commit">
       <option name="closed" value="true" />
@@ -202,7 +190,15 @@
       <option name="project" value="LOCAL" />
       <updated>1723142323438</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="destroyed everything with last commit and fixed most of it again :)">
+      <option name="closed" value="true" />
+      <created>1723496036225</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1723496036225</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -246,11 +242,12 @@
     <MESSAGE value="generation of patient, episode_of_care, encounter and condition implemented" />
     <MESSAGE value="basically done" />
     <MESSAGE value="code improvements" />
-    <option name="LAST_COMMIT_MESSAGE" value="code improvements" />
+    <MESSAGE value="destroyed everything with last commit and fixed most of it again :)" />
+    <option name="LAST_COMMIT_MESSAGE" value="destroyed everything with last commit and fixed most of it again :)" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/data_generator$oraganization.coverage" NAME="oraganization Coverage Results" MODIFIED="1721385882205" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/fhirclient" />
-    <SUITE FILE_PATH="coverage/fhir_data_generator$main.coverage" NAME="main Coverage Results" MODIFIED="1723494889213" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/fhir_data_generator$main.coverage" NAME="main Coverage Results" MODIFIED="1723563903239" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/data_generator$organization.coverage" NAME="organization Coverage Results" MODIFIED="1721388318563" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/fhirclient" />
     <SUITE FILE_PATH="coverage/data_generator$bundle_generator.coverage" NAME="bundle-generator Coverage Results" MODIFIED="1721385177787" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/fhirclient" />
     <SUITE FILE_PATH="coverage/data_generator$main.coverage" NAME="main Coverage Results" MODIFIED="1722538917316" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

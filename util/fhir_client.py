@@ -1,5 +1,6 @@
 from fhirclient import client
 from urllib3.exceptions import NewConnectionError, MaxRetryError
+from dotenv import load_dotenv, dotenv_values
 
 from exceptions.fhir_connection_error import FhirConnection
 
@@ -11,6 +12,12 @@ settings = {
 
 def get_client():
     try:
+        if load_dotenv():
+            api = dotenv_values(".env")
+            settings = {
+                'app_id': api["APP_ID"],
+                'api_base': api["API_BASE"],
+            }
         connection = client.FHIRClient(settings=settings)
     except ConnectionRefusedError as cre:
         raise FhirConnection(f"Connection refused - please check the connection settings: {settings}", cre)
