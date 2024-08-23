@@ -1,6 +1,6 @@
 import traceback
 
-import requests
+from util import abfragen
 import json
 
 from fhirclient.models.bundle import Bundle

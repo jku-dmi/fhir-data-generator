@@ -3,21 +3,17 @@ import json
 import time
 from typing import Callable, List
 
-import requests
 from fhirclient.models import bundle as bundle_model
-from fhirclient.models.fhirabstractbase import FHIRValidationError
 
-from exceptions.fhir_connection_error import FhirConnection
 from generator import generate_condition, generate_procedure
 from generator.document_reference import generate_document_reference
-from generator.encounter import generate_encounter, add_condition_encounter
-from generator.episode_of_care import generate_episode_of_care, add_condition_eoc, \
-    generate_episode_of_care_with_set_reference
+from generator.encounter import generate_encounter
+from generator.episode_of_care import generate_episode_of_care
 from generator.medication.medication_statement import generate_medication_statement
 from generator.organization import generate_organization
 from generator.patient import generate_patient
 from generator.medication.medication import generate_medication
-from util.create_dynamic_provider import create_dynamic_provider, bundle_response_to_provider
+from util.create_dynamic_provider import create_dynamic_provider
 from util.faker_instance import get_faker
 from util.fhir_client import get_client
 from util.util import send_bundle, save_bundle

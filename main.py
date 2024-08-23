@@ -1,8 +1,5 @@
-from factory.data_to_file import generate_data_random_references_to_file
 from factory.data_to_server import generate_data_random_references_to_server
-from generator.data_set import generate_data_random_references
-from generator.medication.medication import generate_medication
-from util.util import send_json_to_sever
+from util.abfragen import abfrage1, abfrage2
 
 
 def main():
@@ -10,10 +7,14 @@ def main():
     #print(f"number of patients: {res.json().get('total')}")
     #print("Starting the data generation")
     # generate_data_random_references(patient_count=10000, medication_count=1500, organization_count=1500, encounter_count=20000, episode_of_care_count=20000, procedure_count=25000, document_reference_count=20000, medication_statement_count=15000, condition_count=10000)
+    #generate_data_random_references_to_server(patient_count=10000, medication_count=100, organization_count=100,
+    #                                          encounter_count=10000,
+    #                                          episode_of_care_count=10000, procedure_count=10000,
+    #                                          document_reference_count=10000,
+    #                                          medication_statement_count=10000, condition_count=10000,
+    #                                          bundle_size=1000)
 
-    generate_data_random_references_to_server(patient_count=100000, medication_count=100000, organization_count=100000, encounter_count=100000,
-                                    episode_of_care_count=100000, procedure_count=100000, document_reference_count=100000,
-                                    medication_statement_count=100000, condition_count=100000, bundle_size=5000)
+    print(abfrage2())
     # send_json_to_sever("./patient.json", "get_patient_id")
     """print("Now send to files the server\n")
     send_json_to_sever("./organization.json", "get_organization_id")

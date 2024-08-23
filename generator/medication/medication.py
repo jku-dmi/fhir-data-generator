@@ -34,9 +34,9 @@ def generate_medication():
     medication.status = fake.medication_status()
     organization = fake.get_organization_id()
 
-    #manufacurer = fr.FHIRReference()
-    #manufacurer.reference = "Organization/{}".format(organization)
-    #medication.manufacturer = manufacurer
+    manufacurer = fr.FHIRReference()
+    manufacurer.reference = "Organization/{}".format(organization)
+    medication.manufacturer = manufacurer
 
     form = cc.CodeableConcept()
     form_code = cod.Coding()

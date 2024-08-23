@@ -1,24 +1,19 @@
 import concurrent.futures
+import datetime
 import json
 import time
 from typing import Callable, List
-
-import requests
 from fhirclient.models import bundle as bundle_model
 from generator import generate_condition, generate_procedure
 from generator.document_reference import generate_document_reference
-from generator.encounter import generate_encounter, add_condition_encounter
-from generator.episode_of_care import generate_episode_of_care, add_condition_eoc, \
-    generate_episode_of_care_with_set_reference
+from generator.encounter import generate_encounter
+from generator.episode_of_care import generate_episode_of_care
 from generator.medication.medication_statement import generate_medication_statement
 from generator.organization import generate_organization
 from generator.patient import generate_patient
 from generator.medication.medication import generate_medication
-from util.create_dynamic_provider import create_dynamic_provider, bundle_response_to_provider, \
-    bundle_response_list_to_provider
-from util.faker_instance import get_faker
-from util.fhir_client import get_client
-from util.util import send_bundle, save_bundle
+from util.create_dynamic_provider import bundle_response_list_to_provider
+from util.util import send_bundle
 
 
 def generate_resources_to_server(function: Callable, resource_type: str, n: int) -> json:
@@ -27,7 +22,7 @@ def generate_resources_to_server(function: Callable, resource_type: str, n: int)
     :param function: Function who generates and returns one resource.
     :param resource_type: Resource name to put it as request url.
     :param n: Number of resources to generate.
-    :return: Response of server.
+    :return: JSON response of server.
     """
 
     res = []
@@ -74,6 +69,7 @@ def generate_data_to_server(count: int, resource_type: str, generator: Callable,
     if reps > 0:
         for i in range(reps):
             result.append(generate_resources_to_server(generator, resource_type, bundle_size))
+            print(f"Bundle {i} of {reps} generated; type = {resource_type}; current time =   {datetime.datetime.now()}")
     # generate rest
     if rest != 0:
         result.append(generate_resources_to_server(generator, resource_type, rest))
@@ -109,3 +105,31 @@ def generate_data_random_references_to_server(patient_count: int, medication_cou
                             bundle_size)
     generate_data_to_server(medication_statement_count, "MedicationStatement", generate_medication_statement,
                             "get_medication_statement_id", bundle_size)
+
+
+def generate_medications(n: int):
+    res = []
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future_to_resource = {executor.submit(generate_medication): i for i in range(n)}
+        for future in concurrent.futures.as_completed(future_to_resource):
+            try:
+                resource = future.result()
+                res.append(resource)
+            except Exception as e:
+                print(f"Resource generation failed with exception: {e}")
+
+        bundle_entries = []
+        for e in res:
+            entry = bundle_model.BundleEntry()
+            entry.resource = e
+            request = bundle_model.BundleEntryRequest()
+            request.method = "POST"
+            request.url = "Medication"
+            entry.request = request
+            bundle_entries.append(entry)
+
+        b = bundle_model.Bundle()
+        b.type = "transaction"
+        b.entry = bundle_entries
+
+        return send_bundle(b)

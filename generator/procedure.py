@@ -29,7 +29,6 @@ def generate_procedure() -> proc.Procedure:
     patient_reference.reference = "Patient/{}".format(patient)
     procedure.subject = patient_reference
 
-
     encounter_reference = fr.FHIRReference()
     encounter_reference.reference = 'Encounter/{}'.format(encounter)
     procedure.encounter = encounter_reference
@@ -37,7 +36,6 @@ def generate_procedure() -> proc.Procedure:
     performed_date_time = fdt.FHIRDateTime()
     performed_date_time.date = fake.date_time()
     procedure.performedDateTime = performed_date_time
-
 
     code = cc.CodeableConcept()
 
@@ -54,6 +52,7 @@ def generate_procedure() -> proc.Procedure:
     #res = procedure.create(smart.server)
     #return res['id']
     return procedure
+
 
 def generate_procedure_with_set_references(patient: p.Patient | None, encounter: e.Encounter | None) -> proc.Procedure:
     procedure = proc.Procedure()
@@ -72,7 +71,6 @@ def generate_procedure_with_set_references(patient: p.Patient | None, encounter:
     patient_reference.reference = "Patient/{}".format(patient)
     procedure.subject = patient_reference
 
-
     encounter_reference = fr.FHIRReference()
     encounter_reference.reference = 'Encounter/{}'.format(encounter)
     procedure.encounter = encounter_reference
@@ -80,7 +78,6 @@ def generate_procedure_with_set_references(patient: p.Patient | None, encounter:
     performed_date_time = fdt.FHIRDateTime()
     performed_date_time.date = fake.date_time()
     procedure.performedDateTime = performed_date_time
-
 
     code = cc.CodeableConcept()
 

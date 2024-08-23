@@ -51,7 +51,6 @@ def bundle_response_list_to_provider(response: List, provider_name: str):
     ids = []
     try:
         for e in response:
-            print(f"{e}")
             bundle = json.loads(e)
             for entry in bundle['entry']:
                 location = entry['response']['location']

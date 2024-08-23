@@ -4,7 +4,8 @@ import requests
 from fhirclient.models import bundle as bundle_model
 from fhirclient.models.fhirabstractbase import FHIRValidationError
 
-from util.create_dynamic_provider import bundle_response_to_provider, bundle_response_list_to_provider
+
+from util.create_dynamic_provider import bundle_response_list_to_provider
 from util.faker_instance import get_faker
 from util.fhir_client import get_client
 

@@ -4,12 +4,6 @@ from dotenv import load_dotenv, dotenv_values
 
 from exceptions.fhir_connection_error import FhirConnection
 
-settings = {
-    'app_id': 'fhir_server',
-    'api_base': 'http://localhost:8080/fhir/'
-}
-
-
 def get_client():
     try:
         if load_dotenv():
@@ -30,6 +24,6 @@ def get_client():
     except ConnectionError as conerr:
         raise FhirConnection(f"An error occured while connecting", conerr)
     except Exception as e:
-        raise FhirConnection(f"Something unexpected happend", e)
+        raise FhirConnection(f"Something unexpected happend - log:  {e}", e)
 
     return connection

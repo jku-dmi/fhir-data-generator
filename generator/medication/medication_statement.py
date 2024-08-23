@@ -38,6 +38,12 @@ def generate_medication_statement() -> ms.MedicationStatement:
     medication_ref = fr.FHIRReference()
     medication_ref.reference = 'Medication/{}'.format(medication)
     medication_statement.medicationReference = medication_ref
+    medication_cc = cc.CodeableConcept()
+    medication_coding = cod.Coding()
+    medication_coding.code = "66076007"
+    medication_coding.system = "http://loinc.org/"
+    medication_cc.coding = [medication_coding]
+    medication_statement.medicationCodeableConcept = medication_cc
 
     subject = fr.FHIRReference()
     subject.reference = 'Patient/{}'.format(patient)
