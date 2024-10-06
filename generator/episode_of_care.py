@@ -40,7 +40,6 @@ def generate_episode_of_care() -> eoc.EpisodeOfCare:
 
     coco = cc.CodeableConcept()
     coco.coding = [coding, issuer]
-
     identifier.type = coco
 
     identifier.value = fake.numerify('##########')
