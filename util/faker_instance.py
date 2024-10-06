@@ -1,5 +1,4 @@
 from faker import Faker
-
 from provider.address import AddressTypeProvider
 from provider.condition.providers import ClinicalStatusProvider
 from provider.document_reference.providers import DocStatusProvider, DocTypeProvider, \

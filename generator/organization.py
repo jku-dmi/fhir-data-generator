@@ -3,7 +3,6 @@ import fhirclient.models.address as a
 import fhirclient.models.codeableconcept as cc
 import fhirclient.models.coding as cod
 import fhirclient.models.organization as o
-
 from util.fhir_client import get_client
 from util.faker_instance import get_faker
 
@@ -21,12 +20,12 @@ def generate_organization() -> o.Organization:
 
     organization.active = True
 
-    type = cc.CodeableConcept()
+    organization_type = cc.CodeableConcept()
     coding = cod.Coding()
     coding.system = 'http://terminology.hl7.org/CodeSystem/organization-type'
     coding.code = fake.organisation_type()
-    type.coding = [coding]
-    organization.type = [type]
+    organization_type.coding = [coding]
+    organization.type = [organization_type]
 
     organization.name = fake.company()
 

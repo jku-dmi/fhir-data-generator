@@ -7,14 +7,11 @@ smart = get_client()
 fake = get_faker()
 
 
-
-
 def get_icd10_as_cc():
-    codeableconcept = cc.CodeableConcept()
+    codeable_concept = cc.CodeableConcept()
     coding = cod.Coding()
     coding.system = "http://fhir.de/CodeSystem/bfarm/icd-10-gm"
     coding.version = "2024"
     coding.code = fake.icd_10_code()
-    codeableconcept.coding = [coding]
-    return codeableconcept
-
+    codeable_concept.coding = [coding]
+    return codeable_concept

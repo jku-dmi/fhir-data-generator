@@ -1,4 +1,3 @@
-import fhirclient
 import fhirclient.models.patient as p
 import fhirclient.models.fhirdate as fd
 import fhirclient.models.meta as m
@@ -8,7 +7,6 @@ import fhirclient.models.address as a
 import fhirclient.models.codeableconcept as cc
 import fhirclient.models.coding as cod
 import fhirclient.models.fhirinstant as fi
-
 from util.fhir_client import get_client
 from util.faker_instance import get_faker
 
@@ -35,7 +33,7 @@ def generate_patient() -> p.Patient:
     humanname.use = fake.human_name_use()
     humanname.family = fake.last_name()
     humanname.given = [fake.first_name()]
-    humanname.text = [humanname.given[0] + " " + humanname.family]
+    humanname.text = humanname.given[0] + " " + humanname.family
     patient.name = [humanname]
 
     patient.active = True
