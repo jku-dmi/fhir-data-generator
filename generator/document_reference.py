@@ -224,34 +224,31 @@ def generate_document_reference() -> dr.DocumentReference:
 
     document_reference.active = True
     document_reference.status = fake.doc_ref_status()
-    #TODO: Check why local fhir server doenst accept defined values (https://build.fhir.org/documentreference.html)
-    #document_reference.docStatus = fake.doc_ref_doc_status()
     document_reference.editTime = fake.timestamp()
 
     doc_type = fake.doc_ref_type()
 
     coding_type = cod.Coding()
     coding_type.system = "http://dvmd.de/fhir/CodeSystem/kdl"
-    coding_type.value = doc_type[0]
+    coding_type.code = doc_type[0]
     coding_type.display = doc_type[2]
 
     coding_type2 = cod.Coding()
     coding_type2.system = "http://loinc.org"
-    coding_type2.value = doc_type[1]
+    coding_type2.code = doc_type[1]
     coding_type2.display = doc_type[2]
 
     coco_type = cc.CodeableConcept()
     coco_type.coding = [coding_type, coding_type2]
     document_reference.type = coco_type
 
-    #TODO: Check if logic is correct or nah
     coding_category = cod.Coding()
     coding_category.system = "http://dvmd.de/fhir/CodeSystem/kdl"
-    coding_category.value = doc_type[0]
+    coding_category.code = doc_type[0]
     coding_category.display = doc_type[2]
     coding_category2 = cod.Coding()
     coding_category2.system = "http://loinc.org"
-    coding_category2.value = doc_type[1]
+    coding_category2.code = doc_type[1]
     coding_category2.display = doc_type[2]
     coco_category = cc.CodeableConcept()
     coco_category.coding = [coding_category, coding_category2]

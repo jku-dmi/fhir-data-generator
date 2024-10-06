@@ -35,6 +35,7 @@ def generate_patient() -> p.Patient:
     humanname.use = fake.human_name_use()
     humanname.family = fake.last_name()
     humanname.given = [fake.first_name()]
+    humanname.text = [humanname.given[0] + " " + humanname.family]
     patient.name = [humanname]
 
     patient.active = True

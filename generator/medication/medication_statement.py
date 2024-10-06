@@ -1,5 +1,6 @@
-import fhirclient.models.medicationstatement as ms
+from datetime import datetime
 
+import fhirclient.models.medicationstatement as ms
 import fhirclient.models.codeableconcept as cc
 import fhirclient.models.coding as cod
 import fhirclient.models.fhirreference as fr
@@ -8,7 +9,7 @@ import fhirclient.models.fhirdatetime as fdt
 import fhirclient.models.patient as p
 import fhirclient.models.encounter as e
 import fhirclient.models.medication as med
-
+import fhirclient.models.period as pe
 from util.fhir_client import get_client
 from util.faker_instance import get_faker
 
@@ -38,12 +39,6 @@ def generate_medication_statement() -> ms.MedicationStatement:
     medication_ref = fr.FHIRReference()
     medication_ref.reference = 'Medication/{}'.format(medication)
     medication_statement.medicationReference = medication_ref
-    medication_cc = cc.CodeableConcept()
-    medication_coding = cod.Coding()
-    medication_coding.code = "66076007"
-    medication_coding.system = "http://loinc.org/"
-    medication_cc.coding = [medication_coding]
-    medication_statement.medicationCodeableConcept = medication_cc
 
     subject = fr.FHIRReference()
     subject.reference = 'Patient/{}'.format(patient)
@@ -53,9 +48,12 @@ def generate_medication_statement() -> ms.MedicationStatement:
     context.reference = 'Encounter/{}'.format(encounter)
     medication_statement.context = context
 
-    effective_date_time = fdt.FHIRDateTime()
-    effective_date_time.dateTime = fake.date_time()
-    medication_statement.effectiveDateTime = effective_date_time
+    #effective_date_time = fdt.FHIRDateTime(datetime.now().isoformat())
+    #medication_statement.effectiveDateTime = effective_date_time
+
+    bd = fdt.FHIRDateTime()
+    bd.date = fake.date_time_between(start_date='now', end_date='+1y')
+    medication_statement.effectiveDateTime = bd
 
     #res = medication_statement.create(smart.server)
     #return res['id']
@@ -63,7 +61,7 @@ def generate_medication_statement() -> ms.MedicationStatement:
 
 
 def generate_medication_statement_with_set_references(patient: p.Patient | None, encounter: e.Encounter | None,
-                                  medication: med.Medication | None) -> ms.MedicationStatement:
+                                                      medication: med.Medication | None) -> ms.MedicationStatement:
     medication_statement = ms.MedicationStatement()
     if patient is None:
         patient = fake.get_patient_id()
@@ -98,7 +96,9 @@ def generate_medication_statement_with_set_references(patient: p.Patient | None,
     medication_statement.context = context
 
     effective_date_time = fdt.FHIRDateTime()
-    effective_date_time.dateTime = fake.date_time()
+    effective_date_time.datetime = fake.date_time_between(start_date='-10y', end_date='now',
+                                                          tzinfo=pytz.timezone('America/New_York'))
+
     medication_statement.effectiveDateTime = effective_date_time
 
     #res = medication_statement.create(smart.server)

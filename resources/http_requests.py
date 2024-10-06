@@ -1,5 +1,7 @@
 import traceback
 
+import requests
+
 from util import abfragen
 import json
 
