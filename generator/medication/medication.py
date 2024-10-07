@@ -63,6 +63,4 @@ def generate_medication():
 
     medication.amount = ratio
 
-    # res = medication.create(smart.server)
-    # return res['id']
     return medication

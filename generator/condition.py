@@ -6,7 +6,6 @@ import fhirclient.models.identifier as i
 import fhirclient.models.codeableconcept as cc
 import fhirclient.models.coding as cod
 import fhirclient.models.fhirreference as fr
-
 from util.fhir_client import get_client
 from util.faker_instance import get_faker
 from util.coding.icd10 import get_icd10_as_cc

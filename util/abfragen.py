@@ -1,12 +1,5 @@
-import json
-import time
-from typing import List
-
 import requests
-from fhirclient.models.bundle import Bundle
 from fhirclient.models.fhirabstractbase import FHIRValidationError
-from fhirclient.models.patient import Patient
-
 from util.fhir_client import get_client
 
 smart = get_client()
