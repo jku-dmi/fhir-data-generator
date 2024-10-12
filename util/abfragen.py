@@ -13,18 +13,19 @@ def abfrage1():
                            params={"code": "764073002", "_count": "1000000"})
         medications = res.json()
 
-        medication_statements = []
-        for entry in medications['entry']:
-            med_id = entry['resource']['id']
-            res = requests.get(smart.server.base_uri + "/MedicationStatement",
-                               params={"medication": med_id})
-            res_json = res.json()
-            if res_json['total'] != 0:
-                for e in res_json['entry']:
-                    ms_id = e['resource']['id']
-                    med_state_ids.append(ms_id)
+        if medications.get('entry', None) is not None:
+            medication_statements = []
+            for entry in medications['entry']:
+                med_id = entry['resource']['id']
+                res = requests.get(smart.server.base_uri + "/MedicationStatement",
+                                   params={"medication": med_id})
+                res_json = res.json()
+                if res_json['total'] != 0:
+                    for e in res_json['entry']:
+                        ms_id = e['resource']['id']
+                        med_state_ids.append(ms_id)
 
-        print(medication_statements)
+            print(medication_statements)
         return med_state_ids
     except FHIRValidationError as fve:
         print(f"FHIR Validation failed: {fve}")
@@ -42,13 +43,13 @@ def abfrage2():
         encounter_ids = []
         res = requests.get(smart.server.base_uri + "/Encounter", params={"_content": "1005514"})
         encounter = res.json()
-        print(encounter)
-        for entry in encounter['entry']:
-            e_id = entry['resource']['id']
-            encounter_ids.append(e_id)
-            p_id = entry['resource']['subject']['reference']
-            p_id = p_id.split('/')[1]
-            patients.append(p_id)
+        if encounter.get('entry', None) is not None:
+            for entry in encounter['entry']:
+                e_id = entry['resource']['id']
+                encounter_ids.append(e_id)
+                p_id = entry['resource']['subject']['reference']
+                p_id = p_id.split('/')[1]
+                patients.append(p_id)
 
         return patients
     except FHIRValidationError as fve:
@@ -68,18 +69,19 @@ def abfrage3():
         res = requests.get(smart.server.base_uri + "/Encounter", params={"date": "ge2010-01-01",
                                                                          "date": "le2011-12-31"})
         encounter = res.json()
-        for entry in encounter['entry']:
-            e_id = entry['resource']['id']
-            encounter_ids.append(e_id)
-            p_id = entry['resource']['subject']['reference'].split('/')[1]
-            res = requests.get(smart.server.base_uri + "/Patient",
-                               params={"_id": p_id,
-                                       "active": "true"})
-            res_json = res.json()
-            if res_json['total'] != 0:
-                for e in res_json['entry']:
-                    ms_id = e['resource']['id']
-                    patient_ids.append(ms_id)
+        if encounter.get('entry', None) is not None:
+            for entry in encounter['entry']:
+                e_id = entry['resource']['id']
+                encounter_ids.append(e_id)
+                p_id = entry['resource']['subject']['reference'].split('/')[1]
+                res = requests.get(smart.server.base_uri + "/Patient",
+                                   params={"_id": p_id,
+                                           "active": "true"})
+                res_json = res.json()
+                if res_json['total'] != 0:
+                    for e in res_json['entry']:
+                        ms_id = e['resource']['id']
+                        patient_ids.append(ms_id)
 
         return patient_ids
     except FHIRValidationError as fve:
@@ -98,10 +100,10 @@ def abfrage4():
         res = requests.get(smart.server.base_uri + "/Medication", params={"_content": "764146007",
                                                                           "manufacturer": " 1"})
         medications = res.json()
-        print(medications)
-        for entry in medications['entry']:
-            e_id = entry['resource']['id']
-            medication_ids.append(e_id)
+        if medications.get('entry', None) is not None:
+            for entry in medications['entry']:
+                e_id = entry['resource']['id']
+                medication_ids.append(e_id)
 
         # build string to fine all medication statements
         med_statement_string = ""
@@ -114,10 +116,10 @@ def abfrage4():
         res = requests.get(smart.server.base_uri + "/MedicationStatement",
                            params={"_content:contains": med_statement_string})
         medication_statements = res.json()
-        print(medication_statements)
-        for entry in medication_statements['entry']:
-            e_id = entry['resource']['id']
-            medication_statement_ids.append(e_id)
+        if medication_statements.get('entry', None) is not None:
+            for entry in medication_statements['entry']:
+                e_id = entry['resource']['id']
+                medication_statement_ids.append(e_id)
 
         return medication_statement_ids
     except FHIRValidationError as fve:
