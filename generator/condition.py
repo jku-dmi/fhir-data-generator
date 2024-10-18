@@ -6,18 +6,24 @@ import fhirclient.models.identifier as i
 import fhirclient.models.codeableconcept as cc
 import fhirclient.models.coding as cod
 import fhirclient.models.fhirreference as fr
-from util.fhir_client import get_client
 from util.faker_instance import get_faker
 from util.coding.icd10 import get_icd10_as_cc
 
-smart = get_client()
 fake = get_faker()
 
 
 def generate_condition() -> c.Condition:
     condition = c.Condition()
-    patient = fake.get_patient_id()
-    encounter = fake.get_encounter_id()
+
+    try:
+        patient = fake.get_patient_id()
+    except AttributeError:
+        patient = None
+
+    try:
+        encounter = fake.get_encounter_id()
+    except AttributeError:
+        encounter = None
 
     identifier = i.Identifier()
 

@@ -4,19 +4,29 @@ import fhirclient.models.coding as cod
 import fhirclient.models.fhirreference as fr
 import fhirclient.models.meta as m
 import fhirclient.models.fhirdatetime as fdt
-from util.fhir_client import get_client
 from util.faker_instance import get_faker
 from datetime import datetime, timezone
 
-smart = get_client()
 fake = get_faker()
 
 
 def generate_medication_statement() -> ms.MedicationStatement:
     medication_statement = ms.MedicationStatement()
-    patient = fake.get_patient_id()
-    encounter = fake.get_encounter_id()
-    medication = fake.get_medication_id()
+
+    try:
+        patient = fake.get_patient_id()
+    except AttributeError:
+        patient = None
+
+    try:
+        encounter = fake.get_encounter_id()
+    except AttributeError:
+        encounter = None
+
+    try:
+        medication = fake.get_medication_id()
+    except AttributeError:
+        medication = None
 
     meta = m.Meta()
     meta.profile = ["http://dmi.de/fhir/StructureDefinition/DaWiMedMedicationStatement"]

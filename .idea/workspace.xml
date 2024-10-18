@@ -4,13 +4,34 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fabb222-5e7b-4289-81fd-5e64d5ec8aa9" name="Changes" comment="changes">
+    <list default="true" id="3fabb222-5e7b-4289-81fd-5e64d5ec8aa9" name="Changes" comment="comments added">
+      <change afterPath="$PROJECT_DIR$/fhir-data-generator-tests/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fhir-data-generator-tests/generators/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fhir-data-generator-tests/generators/condition_tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fhir-data-generator-tests/generators/document_reference_tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fhir-data-generator-tests/generators/encouter_tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fhir-data-generator-tests/generators/episode_of_care_tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fhir-data-generator-tests/generators/medication_statement_tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fhir-data-generator-tests/generators/medication_tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fhir-data-generator-tests/generators/organization_tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fhir-data-generator-tests/generators/patient_tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fhir-data-generator-tests/generators/procedure_tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fhir-data-generator-tests/tests_main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/provider/timestamp.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/generator/condition.py" beforeDir="false" afterPath="$PROJECT_DIR$/generator/condition.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/generator/document_reference.py" beforeDir="false" afterPath="$PROJECT_DIR$/generator/document_reference.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generator/encounter.py" beforeDir="false" afterPath="$PROJECT_DIR$/generator/encounter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generator/episode_of_care.py" beforeDir="false" afterPath="$PROJECT_DIR$/generator/episode_of_care.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/generator/medication/medication.py" beforeDir="false" afterPath="$PROJECT_DIR$/generator/medication/medication.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generator/medication/medication_statement.py" beforeDir="false" afterPath="$PROJECT_DIR$/generator/medication/medication_statement.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generator/organization.py" beforeDir="false" afterPath="$PROJECT_DIR$/generator/organization.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generator/patient.py" beforeDir="false" afterPath="$PROJECT_DIR$/generator/patient.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generator/procedure.py" beforeDir="false" afterPath="$PROJECT_DIR$/generator/procedure.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/abfragen.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/abfragen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/coding/icd10.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/coding/icd10.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/faker_instance.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/faker_instance.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/fhir_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/fhir_client.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,27 +71,43 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Python.bundle-generator.executor&quot;: &quot;Run&quot;,
-    &quot;Python.document.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.oraganization.executor&quot;: &quot;Run&quot;,
-    &quot;Python.organization.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/KuziaJ/PycharmProjects/data-generator/generators&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Python tests.Python tests for condition_tests.TestGenerateCondition.executor": "Run",
+    "Python tests.Python tests for document_reference_tests.TestGenerateDocumentReference.executor": "Run",
+    "Python tests.Python tests for encouter_tests.TestGenerateEncounter.executor": "Run",
+    "Python tests.Python tests for episode_of_care_tests.TestGenerateEpisodeOfCare.executor": "Run",
+    "Python tests.Python tests for medication_statement_tests.TestGenerateMedicationStatement.executor": "Run",
+    "Python tests.Python tests for medication_tests.TestGenerateMedication.executor": "Run",
+    "Python tests.Python tests for organization_tests.TestGenerateOrganization.executor": "Run",
+    "Python tests.Python tests for patient-tests.TestGeneratePatient.executor": "Coverage",
+    "Python tests.Python tests for patient_tests.TestGeneratePatient.executor": "Run",
+    "Python tests.Python tests for patient_tests.TestGeneratePatient.test_patient_fields_populated.executor": "Run",
+    "Python tests.Python tests for procedure_tests.TestGenerateProcedure.executor": "Run",
+    "Python tests.Python tests in fhir-data-generator-tests.executor": "Run",
+    "Python tests.Python tests in generators.executor": "Run",
+    "Python tests.Python tests in patient_tests.py.executor": "Run",
+    "Python.bundle-generator.executor": "Run",
+    "Python.document.executor": "Run",
+    "Python.main (1).executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.oraganization.executor": "Run",
+    "Python.organization.executor": "Run",
+    "Python.tests_main (1).executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/KuziaJ/PycharmProjects/data-generator/generators",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\KuziaJ\PycharmProjects\data-generator\generators" />
@@ -79,15 +116,15 @@
       <recent name="C:\Users\KuziaJ\PycharmProjects\data-generator\providers" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\jonas\PycharmProjects\fhir-data-generator\fhir-data-generator-tests\generators" />
       <recent name="C:\Users\jonas\PycharmProjects\fhir-data-generator\util" />
       <recent name="C:\Users\KuziaJ\PycharmProjects\data-generator\generator\medication" />
       <recent name="C:\Users\KuziaJ\PycharmProjects\data-generator\providers\episode_of_care" />
       <recent name="C:\Users\KuziaJ\PycharmProjects\data-generator\providers\patient" />
-      <recent name="C:\Users\KuziaJ\PycharmProjects\data-generator\providers\condition" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.tests_main (1)">
+    <configuration name="tests_main (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="data-generator" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -96,12 +133,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/fhir-data-generator-tests" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/fhir-data-generator-tests/tests_main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -110,9 +147,91 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="tests_main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="data-generator" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/fhir-data-generator-tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\jonas\PycharmProjects\fhir-data-generator\fhir-data-generator-tests\tests_main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for condition_tests.TestGenerateCondition" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="data-generator" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/fhir-data-generator-tests/generators" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;condition_tests.TestGenerateCondition&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for medication_statement_tests.TestGenerateMedicationStatement" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="data-generator" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/fhir-data-generator-tests/generators" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;medication_statement_tests.TestGenerateMedicationStatement&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for medication_tests.TestGenerateMedication" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="data-generator" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/fhir-data-generator-tests/generators" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;medication_tests.TestGenerateMedication&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.tests_main" />
+      <item itemvalue="Python.tests_main (1)" />
+      <item itemvalue="Python tests.Python tests for condition_tests.TestGenerateCondition" />
+      <item itemvalue="Python tests.Python tests for medication_statement_tests.TestGenerateMedicationStatement" />
+      <item itemvalue="Python tests.Python tests for medication_tests.TestGenerateMedication" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main" />
+        <item itemvalue="Python.tests_main (1)" />
+        <item itemvalue="Python tests.Python tests for medication_tests.TestGenerateMedication" />
+        <item itemvalue="Python.tests_main" />
+        <item itemvalue="Python tests.Python tests for medication_statement_tests.TestGenerateMedicationStatement" />
+        <item itemvalue="Python tests.Python tests for condition_tests.TestGenerateCondition" />
       </list>
     </recent_temporary>
   </component>
@@ -192,7 +311,14 @@
       <workItem from="1727944583419" duration="4169000" />
       <workItem from="1728022032439" duration="8592000" />
       <workItem from="1728207472436" duration="11945000" />
-      <workItem from="1728285101185" duration="725000" />
+      <workItem from="1728285101185" duration="3424000" />
+      <workItem from="1728729074441" duration="2444000" />
+      <workItem from="1728817821634" duration="8436000" />
+      <workItem from="1728890007878" duration="1205000" />
+      <workItem from="1728987229529" duration="3783000" />
+      <workItem from="1729058369414" duration="6995000" />
+      <workItem from="1729140951995" duration="9426000" />
+      <workItem from="1729245462632" duration="4319000" />
     </task>
     <task id="LOCAL-00001" summary="inital commit">
       <option name="closed" value="true" />
@@ -298,7 +424,39 @@
       <option name="project" value="LOCAL" />
       <updated>1728219276045</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="format">
+      <option name="closed" value="true" />
+      <created>1728286141446</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1728286141446</updated>
+    </task>
+    <task id="LOCAL-00015" summary="README.md">
+      <option name="closed" value="true" />
+      <created>1728288674868</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1728288674868</updated>
+    </task>
+    <task id="LOCAL-00016" summary="fehlerbehandlung">
+      <option name="closed" value="true" />
+      <created>1728729289844</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1728729289844</updated>
+    </task>
+    <task id="LOCAL-00017" summary="comments added">
+      <option name="closed" value="true" />
+      <created>1729246593765</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1729246593765</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -351,14 +509,21 @@
     <MESSAGE value="small adjustments" />
     <MESSAGE value="ersten beiden abfragen hinzugefügt" />
     <MESSAGE value="changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="changes" />
+    <MESSAGE value="format" />
+    <MESSAGE value="README.md" />
+    <MESSAGE value="fehlerbehandlung" />
+    <MESSAGE value="comments added" />
+    <option name="LAST_COMMIT_MESSAGE" value="comments added" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/data_generator$oraganization.coverage" NAME="oraganization Coverage Results" MODIFIED="1721385882205" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/fhirclient" />
-    <SUITE FILE_PATH="coverage/fhir_data_generator$main.coverage" NAME="main Coverage Results" MODIFIED="1728218894750" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/fhir_data_generator$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1729249269588" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/fhir-data-generator-tests" />
+    <SUITE FILE_PATH="coverage/fhir_data_generator$main.coverage" NAME="main Coverage Results" MODIFIED="1729249004708" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/fhir_data_generator$tests_main__1_.coverage" NAME="tests_main (1) Coverage Results" MODIFIED="1729249796564" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/fhir-data-generator-tests" />
     <SUITE FILE_PATH="coverage/data_generator$organization.coverage" NAME="organization Coverage Results" MODIFIED="1721388318563" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/fhirclient" />
     <SUITE FILE_PATH="coverage/data_generator$bundle_generator.coverage" NAME="bundle-generator Coverage Results" MODIFIED="1721385177787" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/fhirclient" />
     <SUITE FILE_PATH="coverage/data_generator$main.coverage" NAME="main Coverage Results" MODIFIED="1722538917316" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/fhir_data_generator$.coverage" NAME=" Coverage Results" MODIFIED="1729249417543" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/fhir-data-generator-tests/generators" />
     <SUITE FILE_PATH="coverage/data_generator$document.coverage" NAME="document Coverage Results" MODIFIED="1721635313628" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/extension" />
   </component>
 </project>

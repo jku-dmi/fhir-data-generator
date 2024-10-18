@@ -1,9 +1,7 @@
 import fhirclient.models.codeableconcept as cc
 import fhirclient.models.coding as cod
-from util.fhir_client import get_client
 from util.faker_instance import get_faker
 
-smart = get_client()
 fake = get_faker()
 
 

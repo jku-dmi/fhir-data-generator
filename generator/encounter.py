@@ -5,18 +5,28 @@ import fhirclient.models.period as per
 import fhirclient.models.coding as cod
 import fhirclient.models.codeableconcept as cc
 import fhirclient.models.fhirreference as fr
-from util.fhir_client import get_client
 from util.faker_instance import get_faker
+from util.fhir_client import get_client
 
-smart = get_client()
 fake = get_faker()
 
 
 def generate_encounter() -> enc.Encounter:
     encounter = enc.Encounter()
-    patient = fake.get_patient_id()
-    episode_of_care = fake.get_episode_of_care_id()
-    organization = fake.get_organization_id()
+    try:
+        patient = fake.get_patient_id()
+    except AttributeError:
+        patient = None
+
+    try:
+        episode_of_care = fake.get_episode_of_care_id()
+    except AttributeError:
+        episode_of_care = None
+
+    try:
+        organization = fake.get_organization_id()
+    except AttributeError:
+        organization = None
 
     sub_ref = fr.FHIRReference()
     sub_ref.reference = "Patient/{}".format(patient)
@@ -67,6 +77,7 @@ def generate_encounter() -> enc.Encounter:
 
 
 def add_condition_encounter(encounter, condition):
+    smart = get_client()
     e = enc.Encounter.read(encounter, smart.server)
     encounter_diagnosis = enc.EncounterDiagnosis()
 

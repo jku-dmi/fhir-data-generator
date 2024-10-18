@@ -3,10 +3,8 @@ import fhirclient.models.address as a
 import fhirclient.models.codeableconcept as cc
 import fhirclient.models.coding as cod
 import fhirclient.models.organization as o
-from util.fhir_client import get_client
 from util.faker_instance import get_faker
 
-smart = get_client()
 fake = get_faker()
 
 

@@ -5,15 +5,16 @@ from exceptions.fhir_connection_error import FhirConnection
 
 global settings
 
+
 # Create a FHIR Client using the parameters from the .env file
 def get_client():
     global settings
     try:
         if load_dotenv():
-            api = dotenv_values(".env")
+            env = dotenv_values(".env")
             settings = {
-                'app_id': api["APP_ID"],
-                'api_base': api["API_BASE"],
+                'app_id': env["APP_ID"],
+                'api_base': env["API_BASE"],
             }
         connection = client.FHIRClient(settings=settings)
     except ConnectionRefusedError as cre:
@@ -25,8 +26,8 @@ def get_client():
         raise FhirConnection(
             f"unable to connect - max retries for connection {settings} reached", mre)
     except ConnectionError as ce:
-        raise FhirConnection(f"An error occured while connecting", ce)
+        raise FhirConnection(f"An error occurred while connecting", ce)
     except Exception as e:
-        raise FhirConnection(f"Something unexpected happend - log:  {e}", e)
+        raise FhirConnection(f"Something unexpected happened - log:  {e}", e)
 
     return connection

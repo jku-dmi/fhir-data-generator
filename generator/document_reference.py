@@ -5,17 +5,22 @@ import fhirclient.models.coding as cod
 import fhirclient.models.fhirreference as fr
 import fhirclient.models.attachment as att
 import fhirclient.models.codeableconcept as cc
-from util.fhir_client import get_client
 from util.faker_instance import get_faker
 
-smart = get_client()
 fake = get_faker()
 
 
 def generate_document_reference() -> dr.DocumentReference:
     document_reference = dr.DocumentReference()
-    patient = fake.get_patient_id()
-    encounter = fake.get_encounter_id()
+    try:
+        patient = fake.get_patient_id()
+    except AttributeError:
+        patient = None
+
+    try:
+        encounter = fake.get_encounter_id()
+    except AttributeError:
+        encounter = None
 
     identifier = i.Identifier()
     ident_id = fake.doc_id()

@@ -4,18 +4,21 @@ import fhirclient.models.procedure as proc
 import fhirclient.models.fhirreference as fr
 import fhirclient.models.fhirdatetime as fdt
 import fhirclient.models.meta as m
-from util.fhir_client import get_client
 from util.faker_instance import get_faker
 
-smart = get_client()
 fake = get_faker()
 
 
 def generate_procedure() -> proc.Procedure:
     procedure = proc.Procedure()
-    patient = fake.get_patient_id()
-    encounter = fake.get_encounter_id()
-
+    try:
+        patient = fake.get_patient_id()
+    except AttributeError:
+        patient = None
+    try:
+        encounter = fake.get_encounter_id()
+    except AttributeError:
+        encounter = None
     meta = m.Meta()
     meta.profile = ["http://dmi.de/fhir/StructureDefinition/DaWiMedProzedur"]
     procedure.meta = meta

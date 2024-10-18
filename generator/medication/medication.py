@@ -1,5 +1,3 @@
-import fhirclient.models.medicationstatement as ms
-
 import fhirclient.models.codeableconcept as cc
 import fhirclient.models.coding as cod
 import fhirclient.models.fhirreference as fr
@@ -8,10 +6,8 @@ import fhirclient.models.identifier as i
 import fhirclient.models.ratio as r
 import fhirclient.models.quantity as q
 
-from util.fhir_client import get_client
 from util.faker_instance import get_faker
 
-smart = get_client()
 fake = get_faker()
 
 
@@ -32,11 +28,14 @@ def generate_medication():
     medication.code = code
 
     medication.status = fake.medication_status()
-    organization = fake.get_organization_id()
+    try:
+        organization = fake.get_organization_id()
+    except AttributeError:
+        organization = None
 
-    manufacurer = fr.FHIRReference()
-    manufacurer.reference = "Organization/{}".format(organization)
-    medication.manufacturer = manufacurer
+    manufacturer = fr.FHIRReference()
+    manufacturer.reference = "Organization/{}".format(organization)
+    medication.manufacturer = manufacturer
 
     form = cc.CodeableConcept()
     form_code = cod.Coding()
@@ -44,6 +43,7 @@ def generate_medication():
     form_code_value = fake.medication_form()
     form_code.code = form_code_value[0]
     form_code.display = form_code_value[1]
+    form.coding = [form_code]
 
     medication.form = form
 

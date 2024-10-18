@@ -19,6 +19,7 @@ from provider.orga_type import OrganisationTypProvider
 from provider.procedure.providers import ProcedureStatusProvider, ProcedureSnomedProvider
 from provider.coding.icd10 import ICD10Provider
 from provider.code_system_identfier_type_de_basis import codeSystemIdentifierTypeDeBasis
+from provider.timestamp import TimeStampProvider, TwoTimeStampsProvider
 
 # Creating a faker instance
 fake = Faker(['de'], use_weighting=False)
@@ -53,7 +54,9 @@ providers = [
     MedicationStatusProvider,
     MedicationFormProvider,
     QuantityValueProvider,
-    codeSystemIdentifierTypeDeBasis
+    codeSystemIdentifierTypeDeBasis,
+    TimeStampProvider,
+    TwoTimeStampsProvider
 ]
 
 for p in providers:
