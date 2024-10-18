@@ -7,6 +7,7 @@ smart = get_client()
 fake = get_faker()
 
 
+# Function to get the full CodeableConcept for the icd10 Code for the condition resource
 def get_icd10_as_cc():
     codeable_concept = cc.CodeableConcept()
     coding = cod.Coding()

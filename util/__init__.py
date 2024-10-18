@@ -1,1 +1,2 @@
 global connection
+global settings

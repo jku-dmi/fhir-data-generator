@@ -16,8 +16,8 @@ def create_dynamic_provider(provider_name, elements):
         print(f"Error creating dynamic provider - Error: {e}")
 
 
+# Create a dynamic provider from a list of bundle responses
 def bundle_response_list_to_provider(response: List, provider_name: str):
-
     ids = []
     try:
         for e in response:

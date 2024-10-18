@@ -8,6 +8,8 @@ from util.fhir_client import get_client
 fake = get_faker()
 smart = get_client()
 
+
+# Send the bundle to the fhir server manually. The function of the fhir client did not work for me.
 def send_bundle(bundle_: bundle_model.Bundle()) -> json:
     try:
         res = requests.post(smart.server.base_uri, json=bundle_.as_json(),

@@ -87,49 +87,39 @@ def generate_data_random_references_to_server(patient_count: int, medication_cou
                                               document_reference_count: int,
                                               procedure_count: int,
                                               medication_statement_count: int, bundle_size: int = 1000):
-    generate_data_to_server(organization_count, "Organization", generate_organization,
-                            "get_organization_id", bundle_size)
-    generate_data_to_server(medication_count, "Medication", generate_medication, "get_medication_id",
-                            bundle_size)
-    generate_data_to_server(patient_count, "Patient", generate_patient, "get_patient_id",
-                            bundle_size)
-    generate_data_to_server(episode_of_care_count, "EpisodeOfCare", generate_episode_of_care,
-                            "get_episode_of_care_id", bundle_size)
-    generate_data_to_server(encounter_count, "Encounter", generate_encounter, "get_encounter_id",
-                            bundle_size)
-    generate_data_to_server(document_reference_count, "DocumentReference", generate_document_reference,
-                            "get_document_reference_id", bundle_size)
-    generate_data_to_server(condition_count, "Condition", generate_condition, "get_condition_id",
-                            bundle_size)
-    generate_data_to_server(procedure_count, "Procedure", generate_procedure, "get_procedure_id",
-                            bundle_size)
-    generate_data_to_server(medication_statement_count, "MedicationStatement", generate_medication_statement,
-                            "get_medication_statement_id", bundle_size)
-
-
-def generate_medications(n: int):
-    res = []
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        future_to_resource = {executor.submit(generate_medication): i for i in range(n)}
-        for future in concurrent.futures.as_completed(future_to_resource):
-            try:
-                resource = future.result()
-                res.append(resource)
-            except Exception as e:
-                print(f"Resource generation failed with exception: {e}")
-
-        bundle_entries = []
-        for e in res:
-            entry = bundle_model.BundleEntry()
-            entry.resource = e
-            request = bundle_model.BundleEntryRequest()
-            request.method = "POST"
-            request.url = "Medication"
-            entry.request = request
-            bundle_entries.append(entry)
-
-        b = bundle_model.Bundle()
-        b.type = "transaction"
-        b.entry = bundle_entries
-
-        return send_bundle(b)
+    """
+    generate the given number of resources. At least one patient, medication and organization are required.
+    :param patient_count: Number of patients to generate
+    :param medication_count: Number of medications to generate
+    :param organization_count: Number of organizations to generate
+    :param encounter_count: Number of encounters to generate
+    :param episode_of_care_count: Number of episodes of care to generate
+    :param condition_count: Number of conditions to generate
+    :param document_reference_count: Number of documents to generate
+    :param procedure_count: Number of procedures to generate
+    :param medication_statement_count: Number of medication statements to generate
+    :param bundle_size: maximum number of resources to put into a bundle (default = 1000)
+    :return: None
+    """
+    try:
+        generate_data_to_server(organization_count, "Organization", generate_organization,
+                                "get_organization_id", bundle_size)
+        generate_data_to_server(medication_count, "Medication", generate_medication, "get_medication_id",
+                                bundle_size)
+        generate_data_to_server(patient_count, "Patient", generate_patient, "get_patient_id",
+                                bundle_size)
+        generate_data_to_server(episode_of_care_count, "EpisodeOfCare", generate_episode_of_care,
+                                "get_episode_of_care_id", bundle_size)
+        generate_data_to_server(encounter_count, "Encounter", generate_encounter, "get_encounter_id",
+                                bundle_size)
+        generate_data_to_server(document_reference_count, "DocumentReference", generate_document_reference,
+                                "get_document_reference_id", bundle_size)
+        generate_data_to_server(condition_count, "Condition", generate_condition, "get_condition_id",
+                                bundle_size)
+        generate_data_to_server(procedure_count, "Procedure", generate_procedure, "get_procedure_id",
+                                bundle_size)
+        generate_data_to_server(medication_statement_count, "MedicationStatement", generate_medication_statement,
+                                "get_medication_statement_id", bundle_size)
+    except Exception as e:
+        print("Es ist ein Fehler bei der Generierung der Ressourcen aufgetreten")
+        print(e)

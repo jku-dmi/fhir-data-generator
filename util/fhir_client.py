@@ -3,7 +3,9 @@ from urllib3.exceptions import NewConnectionError, MaxRetryError
 from dotenv import load_dotenv, dotenv_values
 from exceptions.fhir_connection_error import FhirConnection
 
+global settings
 
+# Create a FHIR Client using the parameters from the .env file
 def get_client():
     global settings
     try:
