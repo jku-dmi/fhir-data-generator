@@ -37,7 +37,6 @@ def generate_document_reference() -> dr.DocumentReference:
     document_reference.identifier = [identifier]
 
     document_reference.status = fake.doc_ref_status()
-    document_reference.docStatus = fake.doc_ref_doc_status()
     document_reference.editTime = fake.timestamp()
 
     doc_type = fake.doc_ref_type()
